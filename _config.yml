@@ -11,14 +11,14 @@ description: Happy blogging... ❤
 github_username: clee01
 
 # Email and twitter are optional:
-email:
-twitter_username:
+email: cl_ee@buaa.edu.cn
+# twitter_username:
 
 # Set this to true to get LaTeX math equation support
-use_math:
+use_math: true
 
 # Add your Google Analytics ID here if you have one and want to use it
-google_analytics:
+# google_analytics:
 
 # Everything below here can be ignored, unless you want to change the theme entirely
 theme: minima
