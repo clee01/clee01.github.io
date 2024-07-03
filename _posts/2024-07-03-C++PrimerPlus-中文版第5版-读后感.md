@@ -1,4 +1,4 @@
-# C++PrimerPlus-中文版第5版-观后感
+# C++PrimerPlus-中文版第5版-读后感
 > 本文主要记录自己阅读`C++ Primer Plus中文版第5版`后结合自己的认知所做的一些查漏补缺
 
 1. TOC
