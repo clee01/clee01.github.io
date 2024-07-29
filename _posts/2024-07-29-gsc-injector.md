@@ -62,4 +62,4 @@ It’ll create an archive **build/package/acts.zip** containing the compiled fil
 
 ## 0x08 Execute acts.exe
 ![image](https://github.com/user-attachments/assets/d886238d-28bf-4bdf-88b9-72fb349a6f41)
-
+![image](https://github.com/user-attachments/assets/bf23361e-6e26-41c4-ad5a-c772ab45d459)
