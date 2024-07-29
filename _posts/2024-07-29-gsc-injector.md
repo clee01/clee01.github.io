@@ -49,6 +49,10 @@ The project should compile in **release** if the setup script was used.
 
 It’ll create the different files into **build/bin/**.
 
+![image](https://github.com/user-attachments/assets/f96b546b-87be-4715-a1f9-a25baa08e9c4)
+
+> if you encountered this error, go to fix this error with the [issue](https://github.com/ladislav-zezula/CascLib/issues/202)
+
 ## 0x06[optional] Package installation
 You can package an installation using the scripts
 ```
