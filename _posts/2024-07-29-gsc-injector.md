@@ -44,7 +44,7 @@ It’ll create the solution into the build directory. You can open it using with
 ![image](https://github.com/user-attachments/assets/886e5e0c-9691-4905-9316-1d4719d4093b)
 ![image](https://github.com/user-attachments/assets/d64a96f2-ac79-46de-a301-cdf1ed1bc0ac)
 
-## 0x05 Compile
+## 0x06 Compile
 The project should compile in **release** if the setup script was used.
 
 It’ll create the different files into **build/bin/**.
@@ -53,9 +53,13 @@ It’ll create the different files into **build/bin/**.
 
 > if you encountered this error, go to fix this error with the [issue](https://github.com/ladislav-zezula/CascLib/issues/202)
 
-## 0x06[optional] Package installation
+## 0x07[optional] Package installation
 You can package an installation using the scripts
 ```
 .\scripts\package.ps1
 ```
 It’ll create an archive **build/package/acts.zip** containing the compiled files with the licenses.
+
+## 0x08 Execute acts.exe
+![image](https://github.com/user-attachments/assets/d886238d-28bf-4bdf-88b9-72fb349a6f41)
+
