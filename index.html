@@ -96,11 +96,84 @@
 </blockquote>
 <h1 id="方法论"><a href="#方法论" class="headerlink" title="方法论"></a>方法论</h1><h2 id="性能调优的流程"><a href="#性能调优的流程" class="headerlink" title="性能调优的流程"></a>性能调优的流程</h2><p><img src="/images/HP_process.png"></p>
 <h2 id="工具总结"><a href="#工具总结" class="headerlink" title="工具总结"></a>工具总结</h2><p>CPU: top, vmstat, pidstat, sar, perf<br>内存: top, free, vmstat, cachetop, cachestat, sar, gperftools<br>磁盘: top, iostat, iotop, vmstat, pidstat, du&#x2F;df<br>网络: netstat, sar, dstat, tcpdump<br>应用: profiler, dump分析</p>
+<h2 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h2><blockquote>
+<p>CPU利用率高本身不是问题，关注CPU负载更能判断系统计算资源是否健康</p>
+</blockquote>
+<h3 id="CPU利用率高-且-平均负载高"><a href="#CPU利用率高-且-平均负载高" class="headerlink" title="CPU利用率高 且 平均负载高"></a>CPU利用率高 且 平均负载高</h3><p>常见于CPU计算密集型应用，大量消耗CPU资源的应用场景有：</p>
+<ol>
+<li>正则操作</li>
+<li>数学运算</li>
+<li>序列化&#x2F;反序列化</li>
+<li>反射操作</li>
+<li>死循环或不合理的大量循环</li>
+<li>基础&#x2F;第三方组件缺陷</li>
+</ol>
+<p><strong>排查以及验证思路</strong>：通过Profiling的方式，得到应用一段时间内的on-CPU火焰图，进而定位问题。另外，CPU利用率过高也有可能是CPU本身性能瓶颈导致的，可进一步通过vmstat查看详细的CPU利用率。用户态CPU利用率（us）较高，说明用户态进程占用了较多的 CPU，如果这个值长期大于<code>50%</code>，应该着重排查应用本身的性能问题。内核态CPU利用率（sy）较高，说明内核态占用了较多的CPU，所以应该着重排查内核线程或者系统调用的性能问题。如果us + sy的值大于<code>80%</code>，说明CPU可能不足</p>
+<h3 id="CPU利用率低-且-平均负载高"><a href="#CPU利用率低-且-平均负载高" class="headerlink" title="CPU利用率低 且 平均负载高"></a>CPU利用率低 且 平均负载高</h3><p>常见于IO密集型应用</p>
+<p><strong>排查以及验证思路</strong>：使用vmstat 1定时输出系统资源使用，观察%wa(iowait)列的值，该列标识了磁盘IO等待时间在CPU时间片中的百分比，如果这个值超过<code>30%</code>，说明磁盘IO等待严重，这可能是大量的磁盘随机访问或直接的磁盘访问（没有使用系统缓存）造成的，也可能磁盘本身存在瓶颈，可以结合iostat或dstat的输出加以验证，如%wa(iowait)升高同时观察到磁盘的读请求很大，说明可能是磁盘读导致的问题。另外，耗时较长的网络请求（即网络IO）也会导致CPU平均负载升高，如MySQL慢查询、使用RPC接口获取接口数据等。这种情况的排查一般需要结合应用本身的上下游依赖关系以及中间件埋点的trace日志，进行综合分析</p>
+<h3 id="CPU上下文切换次数变高"><a href="#CPU上下文切换次数变高" class="headerlink" title="CPU上下文切换次数变高"></a>CPU上下文切换次数变高</h3><p><strong>排查以及验证思路</strong>：先用vmstat查看系统的上下文切换次数，然后通过pidstat观察进程的自愿上下文切换（cswch）和非自愿上下文切换（nvcswch）情况。自愿上下文切换，是因为应用内部线程状态发生转换所致，譬如调用sleep()、join()、wait()等方法，或使用了mutex锁结构；非自愿上下文切换，是因为线程由于被分配的时间片用完或由于执行优先级被调度器调度所致</p>
+<p>如果自愿上下文切换次数较高，意味着CPU存在资源获取等待，比如说，IO、内存等系统资源不足等。如果是非自愿上下文切换次数较高，可能的原因是应用内线程数过多，导致CPU时间片竞争激烈，频频被系统强制调度</p>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><blockquote>
+<p>内存分为系统内存和进程内存，一般遇到的内存问题，绝大多数都会落在进程内存上，系统资源造成的瓶颈占比较小</p>
+</blockquote>
+<h3 id="系统内存不足"><a href="#系统内存不足" class="headerlink" title="系统内存不足"></a>系统内存不足</h3><p><strong>排查以及验证思路</strong>：</p>
+<ul>
+<li>使用free查看当前内存的可用空间大小，然后vmstat查看具体的内存使用情况及内存增长趋势，这个阶段一般能定位占用内存最多的进程</li>
+<li>分析缓存&#x2F;缓冲区的内存使用。如果这个数值在一段时间内变化不大，可以忽略。如果观察到缓存&#x2F;缓冲区的大小在持续升高，则可以使用pcstat、cachetop、slabtop等工具，分析缓存&#x2F;缓冲区的具体占用</li>
+<li>排除掉缓存&#x2F;缓冲区对系统内存的影响后，如果发现内存还在不断增长，说明很有可能存在内存泄漏</li>
+</ul>
+<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p><strong>排查以及验证思路</strong>：</p>
+<ul>
+<li>查看进程的内存映射，如果堆区不断增长，可能有内存泄漏</li>
+<li>smem -p显示进程的内存占用情况</li>
+<li>借助内存检测工具辅助定位，譬如valgrind&#x2F;asan&#x2F;gperftools</li>
+</ul>
+<h2 id="磁盘IO和网络IO"><a href="#磁盘IO和网络IO" class="headerlink" title="磁盘IO和网络IO"></a>磁盘IO和网络IO</h2><h3 id="磁盘IO"><a href="#磁盘IO" class="headerlink" title="磁盘IO"></a>磁盘IO</h3><p><strong>排查以及验证思路</strong>：</p>
+<ul>
+<li>使用工具输出磁盘相关的输出的指标，常用的有%wa（iowait）、%util，根据输判断磁盘IO是否存在异常，譬如%util这个指标较高，说明有较重的IO行为</li>
+<li>使用pidstat定位到具体进程，关注下读或写的数据大小和速率</li>
+<li>使用lsof + 进程号，可查看该异常进程打开的文件列表（含目录、块设备、动态库、网络套接字等），结合业务代码，一般可定位到IO的来源，如果需要具体分析，还可以使用perf等工具进行trace定位IO源头</li>
+</ul>
+<blockquote>
+<p>需要注意的是，%wa（iowait）的升高不代表一定意味着磁盘IO存在瓶颈，这是数值代表CPU上IO操作的时间占用的百分比，如果应用进程的在这段时间内的主要活动就是IO，那么也是正常的</p>
+</blockquote>
+<h3 id="网络IO"><a href="#网络IO" class="headerlink" title="网络IO"></a>网络IO</h3><p><strong>排查以及验证思路</strong>：</p>
+<ul>
+<li>一次传输的对象过大，可能会导致请求响应慢</li>
+<li>网络IO模型选择不合理，导致应用整体QPS较低，响应时间长</li>
+<li>RPC 调用的线程池设置不合理</li>
+<li>RPC 调用超时时间设置不合理，造成请求失败较多</li>
+</ul>
+<h2 id="有用的一行命令"><a href="#有用的一行命令" class="headerlink" title="有用的一行命令"></a>有用的一行命令</h2><ol>
+<li>查看系统当前网络连接数</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -n | awk <span class="string">&#x27;/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>按照CPU&#x2F;内存的使用情况列出前10的进程</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 内存</span></span><br><span class="line">ps axo %mem,pid,euser,cmd | <span class="built_in">sort</span> -nr | <span class="built_in">head</span> -10</span><br><span class="line"><span class="comment"># CPU</span></span><br><span class="line">ps -aeo pcpu,user,pid,cmd | <span class="built_in">sort</span> -nr | <span class="built_in">head</span> -10</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>显示系统整体的CPU利用率和闲置率</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep <span class="string">&quot;cpu &quot;</span> /proc/stat | awk -F <span class="string">&#x27; &#x27;</span> <span class="string">&#x27;&#123;total = $2 + $3 + $4 + $5&#125; END &#123;print &quot;idle \t used\n&quot; $5*100/total &quot;% &quot; $2*100/total &quot;%&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>火焰图生成（需要安装perf、perf-map-agent、FlameGraph这三个项目）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 收集应用运行时的堆栈和符号表信息（采样时间30秒，每秒99个事件）；</span></span><br><span class="line"><span class="built_in">sudo</span> perf record -F 99 -p <span class="variable">$pid</span> -g -- <span class="built_in">sleep</span> 30; ./jmaps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 perf script 生成分析结果，生成的 flamegraph.svg 文件就是火焰图。</span></span><br><span class="line"><span class="built_in">sudo</span> perf script | ./pkgsplit-perf.pl | grep java | ./flamegraph.pl &gt; flamegraph.svg</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>按照Swap分区的使用情况列出前10的进程</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> /proc/*/status ; <span class="keyword">do</span> awk <span class="string">&#x27;/VmSwap|Name|^Pid/&#123;printf $2 &quot; &quot; $3&#125;END&#123; print &quot;&quot;&#125;&#x27;</span> <span class="variable">$file</span>; <span class="keyword">done</span> | <span class="built_in">sort</span> -k 3 -n -r | <span class="built_in">head</span> -10</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/727675">如何回答性能优化的问题，才能打动阿里面试官？</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/727625">90%的人会遇到性能问题，如何用1行代码快速定位？</a></li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm6uy5ws20001beqofjnu791k" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm706hwr0000027qodehyaxbe" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -317,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/" data-id="cm6uy5ws00000beqo0etpd5yw" data-title="[WIP] C++ Primer Plus中文版第5版" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/" data-id="cm706hwr3000127qo52hm5e4x" data-title="[WIP] C++ Primer Plus中文版第5版" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
