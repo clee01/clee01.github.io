@@ -15,7 +15,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://clee01.github.io/images/HP_process.png">
 <meta property="article:published_time" content="2025-02-07T02:54:25.000Z">
-<meta property="article:modified_time" content="2025-02-11T07:46:23.578Z">
+<meta property="article:modified_time" content="2025-02-14T03:27:14.771Z">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://clee01.github.io/images/HP_process.png">
@@ -163,7 +163,7 @@
 <ol start="4">
 <li>火焰图生成（需要安装perf、perf-map-agent、FlameGraph这三个项目）</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 收集应用运行时的堆栈和符号表信息（采样时间30秒，每秒99个事件）；</span></span><br><span class="line"><span class="built_in">sudo</span> perf record -F 99 -p <span class="variable">$pid</span> -g -- <span class="built_in">sleep</span> 30; ./jmaps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 perf script 生成分析结果，生成的 flamegraph.svg 文件就是火焰图。</span></span><br><span class="line"><span class="built_in">sudo</span> perf script | ./pkgsplit-perf.pl | grep java | ./flamegraph.pl &gt; flamegraph.svg</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 收集应用运行时的堆栈和符号表信息（采样时间30秒，每秒99个事件）；</span></span><br><span class="line"><span class="built_in">sudo</span> perf record -F 99 -p <span class="variable">$pid</span> -g -- <span class="built_in">sleep</span> 30</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 perf script 生成分析结果，生成的 flamegraph.svg 文件就是火焰图。</span></span><br><span class="line"><span class="built_in">sudo</span> perf script | ./pkgsplit-perf.pl | ./flamegraph.pl &gt; flamegraph.svg</span><br></pre></td></tr></table></figure>
 <ol start="5">
 <li>按照Swap分区的使用情况列出前10的进程</li>
 </ol>
@@ -177,7 +177,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm706hwr0000027qodehyaxbe" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm747l90o0000a2qocdxcbwwm" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
