@@ -91,11 +91,80 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <h1 id="虚拟内存与物理内存映射"><a href="#虚拟内存与物理内存映射" class="headerlink" title="虚拟内存与物理内存映射"></a>虚拟内存与物理内存映射</h1><ul>
+<li>物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置）</li>
+<li>struct page：内核中使用其来封装每页内存块的状态信息</li>
+<li>PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一</li>
+<li>全局数组mem_map：表示系统中每一物理内存页，通常存储在内核的虚拟地址空间中；在内核的初始化阶段通过物理内存区域和页表映射来创建的</li>
+<li>NUMA(Non-Uniform Memory Access)内存架构：与物理CPU(或CPU Socket)一一对应，每个物理CPU内的所有物理核心和逻辑核心都共享该节点的本地内存；每个NUMA节点的物理内存会被映射到全局mem_map中的一段区域</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">pglist_data</span> &#123;</span><br><span class="line">    <span class="type">int</span> node_id;  <span class="comment">// NUMA节点id</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">page</span>* node_mem_map;  <span class="comment">// 指向NUMA节点管理所有物理页page的数组</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进程虚拟内存空间分类<ul>
+<li>未分配页面：非常庞大，远远超过物理内存空间</li>
+<li>已分配未映射页面：通过glibc的malloc接口或者系统调用mmap向内核申请虚拟内存</li>
+<li>正常页面：进程读写已分配未映射的虚拟内存页时，CPU中地址翻译的硬件MMU会产生缺页中断，随后内核分配对应的物理内存页面，并将虚拟内存页和物理内存页映射起来</li>
+</ul>
+</li>
+<li>页表：存储进程虚拟内存与物理内存之间的映射关系，本质也是一个物理内存页；每一条数据称之为页表项PTE(Page Table Entry)<blockquote>
+<p>在32位系统中页表中的PTE占用4个字节，64位系统中页表的PTE占用8个字节</p>
+</blockquote>
+</li>
+<li>struct mm_struct：描述进程的虚拟内存空间，进程间独立，且每个进程都有独立的页表；页表起始地址存放在struct mm_struct的pgd属性中，进程被创建出来时设置<blockquote>
+<p>pgd刚被创建出无法被CPU直接使用，因为其还只是顶级页表的虚拟内存地址</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">mm_struct</span> &#123;</span><br><span class="line">    <span class="type">pgd_t</span>* pgd;  <span class="comment">// 当前进程顶级页表的起始地址，x86_64架构通常采用四级页表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>四级页表<ul>
+<li>PGD(Page Global Directory)：全局页目录</li>
+<li>PUD(Page Upper Directory)：上层页目录</li>
+<li>PMD(Page Middle Directory)：中间页目录</li>
+<li>PT(Page Table)：页表</li>
+</ul>
+</li>
+<li>虚拟内存地址的格式：页表内的偏移 + 物理内存页内偏移；结合页表起始地址可获取虚拟页在页表中对应的PTE</li>
+<li>进程调度：内核调用context_switch进行进程的上下文切换，主要包括：<ul>
+<li>进程虚拟内存空间的切换</li>
+<li>寄存器以及进程栈的切换<blockquote>
+<p>其中，进程虚拟内存空间的切换包括调用load_new_mm_cr3将进程顶级页表起始地址mm_struct-&gt;pgd中的虚拟内存地址通过__sme_pa宏转换为物理内存地址，并将pgd的物理内存地址加载到cr3寄存器中</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">switch_mm_irqs_off</span><span class="params">(<span class="keyword">struct</span> mm_struct* prev, <span class="keyword">struct</span> mm_struct* next, <span class="keyword">struct</span> task_struct* tsk)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 通过__sme_pa将pgd的虚拟内存地址转换为物理内存地址，并加载到cr3寄存器中</span></span><br><span class="line">    <span class="built_in">load_new_mm_cr3</span>(next-&gt;pgd, new_asid, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>用户进程正常的内存访问是在用户态进行的，无需进入内核态，除非访问的是以下虚拟内存页面类型：<ul>
+<li>未分配页面</li>
+<li>已分配未映射页面</li>
+<li>已映射，但该虚拟内存页映射的物理内存页被置换到磁盘上了</li>
+</ul>
+</li>
+<li>进程页表分为两个部分：<ul>
+<li>进程用户态页表</li>
+<li>内核页表的copy部分</li>
+</ul>
+</li>
+<li>内核线程之间的调度由于不涉及地址空间切换，因此不会引发TLB缓存和CPU高速缓存的刷新操作，从而避免了进程调度时的性能开销</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">task_struct</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">mm_struct</span>* mm;  <span class="comment">// 对于内核线程来说，它并没有自己的地址空间；因为它始终工作在内核空间中，所有进程看到的都是一样的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进程调度则涉及地址空间的切换，需要刷新TLB和CPU缓存，带来额外的性能开销</li>
+<li>页表本质上还是一个物理内存页，里面存放的是PTE，保存虚拟内存与物理内存的映射关系；会参与内核的调度，即，会被内核swap in和swap out，也会被缓存在CPU高速缓存中加速访问</li>
+<li>MMU(Memory Management Unit)硬件加速地址翻译过程</li>
+<li>CPU高速缓存L1、L2、L3 cache缓存热点PDE、PTE</li>
+<li>MMU引入硬件缓存TLB(Translation Lookaside Buffer)缓存被MMU翻译之后的热点PTE</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/fbedfe3a68551aa100754a874">详解虚拟内存如何与物理内存进行映射</a></li>
+</ol>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB/" data-id="cm7e3n6wd0001yeqo3f918uq4" data-title="Linux页表体系" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB/" data-id="cm7hormer0000j5qogacvely4" data-title="Linux页表体系" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -211,7 +280,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm7e3n6we0002yeqo47ui4fjr" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm7hormev0001j5qoatrr2cjz" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -428,7 +497,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/" data-id="cm7e3n6w90000yeqodf6f23v6" data-title="[WIP] C++ Primer Plus中文版第5版" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/" data-id="cm7hormew0002j5qo5hfh1npa" data-title="[WIP] C++ Primer Plus中文版第5版" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
