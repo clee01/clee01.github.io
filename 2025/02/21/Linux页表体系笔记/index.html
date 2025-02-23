@@ -9,7 +9,7 @@
   <meta name="description" content="虚拟内存与物理内存映射 物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置） struct page：内核中使用其来封装每页内存块的状态信息 PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一 全局数组mem_map：表示系统中每一物理内存页，通常存储在内核的虚拟地址空间中；在内核的初始化阶">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux页表体系笔记">
-<meta property="og:url" content="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB/index.html">
+<meta property="og:url" content="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Hello, my world!">
 <meta property="og:description" content="虚拟内存与物理内存映射 物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置） struct page：内核中使用其来封装每页内存块的状态信息 PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一 全局数组mem_map：表示系统中每一物理内存页，通常存储在内核的虚拟地址空间中；在内核的初始化阶">
 <meta property="og:locale" content="en_US">
@@ -71,9 +71,9 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Linux页表体系" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-Linux页表体系笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB/" class="article-date">
+    <a href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/" class="article-date">
   <time class="dt-published" datetime="2025-02-21T01:35:07.000Z" itemprop="datePublished">2025-02-21</time>
 </a>
     
@@ -166,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB/" data-id="cm7houadv0001nyqo471gdt8w" data-title="Linux页表体系笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/" data-id="cm7hp6d28000257qo4a6r6sv6" data-title="Linux页表体系笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -217,7 +217,7 @@
       <ul>
         
           <li>
-            <a href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB/">Linux页表体系笔记</a>
+            <a href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/">Linux页表体系笔记</a>
           </li>
         
           <li>
