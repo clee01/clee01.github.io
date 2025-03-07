@@ -69,6 +69,63 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Cpp异常处理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2025-03-07T05:58:48.000Z" itemprop="datePublished">2025-03-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">C++异常处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序</li>
+<li>执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上<ul>
+<li>Windows上是放在线程信息块TIB中</li>
+<li>Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中<blockquote>
+<p>在libstdc++（GCC的标准库实现）中，异常对象的存储和管理涉及__cxa_allocate_exception()和__cxa_get_globals()等函数。__cxa_allocate_exception()在堆上分配异常对象；GCC通过__cxa_get_globals()获取当前线程的异常处理数据结构__cxa_eh_globals，它通常存储在TLS或TCB中；__cxa_eh_globals结构体存储了当前线程的异常对象指针，但并不是存储异常对象本身</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>throw语句抛出的异常对象在匹配成功的catch语句的结束处被析构（即使该catch语句使用的是非引用的传值参数类型）</li>
+<li>由于throw语句都进行了一次副本拷贝，因此异常对象应该是可以复制构造的<ul>
+<li>C++98&#x2F;03：异常对象必须支持拷贝构造</li>
+<li>C++11及以后：可以支持移动构造，减少性能损耗</li>
+</ul>
+</li>
+<li>抛出一个表达式时，被抛出对象的静态编译时类型将决定异常对象的类型</li>
+<li>异常规格在C++11中被弃用，C++11定义了新的noexcept关键字，如果在函数声明后直接加上noexcept关键字，表示函数不会抛出异常。如果保证不抛出异常的函数实际上抛出了异常，将直接调用terminate终止程序的运行</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://clee01.github.io/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" data-id="cm7yvd9n60000vyqo2wv48lfh" data-title="C++异常处理" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-个人2025年规划" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/" class="article-date">
@@ -106,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/" data-id="cm7x6lenz00012xqo68w983sg" data-title="个人2025年规划" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/" data-id="cm7yvd9nb0002vyqo2xdq0o5x" data-title="个人2025年规划" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -213,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/" data-id="cm7x6leo100032xqo66sua6dg" data-title="Linux页表体系笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/" data-id="cm7yvd9nc0004vyqo60u89ohj" data-title="Linux页表体系笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -329,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm7x6lenw00002xqocxyw6jwd" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/" data-id="cm7yvd9na0001vyqo9y1vcv8e" data-title="[WIP] 性能调优的技术" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -546,7 +603,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/" data-id="cm7x6leo000022xqoezrqggcn" data-title="[WIP] C++ Primer Plus中文版第5版" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/" data-id="cm7yvd9nb0003vyqo5jyl5vq6" data-title="[WIP] C++ Primer Plus中文版第5版" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -587,6 +644,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">C++异常处理</a>
+          </li>
         
           <li>
             <a href="/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/">个人2025年规划</a>
