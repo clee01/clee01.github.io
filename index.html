@@ -69,6 +69,145 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Boost-asio" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/31/Boost-asio/" class="article-date">
+  <time class="dt-published" datetime="2025-03-31T06:53:15.000Z" itemprop="datePublished">2025-03-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/31/Boost-asio/">Boost::asio</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>Boost.Asio使用<em>io_context</em>同操作系统的输入&#x2F;输出服务进行交互</li>
+<li>io_context是线程安全的，可以被多个线程同时调用</li>
+<li>io_context::run()会阻塞线程，直到io_context内部的任务都完成</li>
+<li>单线程调用io_context::run(): 所有回调都在该线程执行</li>
+<li>多线程调用io_context::run(): 对个线程共享io_context的任务，并发执行回调</li>
+<li>socket类不是<em>线程安全</em>的</li>
+<li>close(): 关闭套接字后，调用这个套接字上任何的异步操作都会被立即关闭，同时返回<em>error::operation_aborted</em>错误码</li>
+<li>shutdown(type_of_shutdown): 部分关闭套接字，是send或receive操作失效，或两者都失效。只是逻辑上的关闭，底层的TCP连接仍然保持</li>
+<li>cancel(): 取消套接字上所有的异步操作。这个套接字上任何的异步操作都会立即结束，然后返回error::operation_aborted错误码。不会关闭套接字，可以继续使用</li>
+<li>套接字实例不能被拷贝，其拷贝构造函数和赋值运算符被删除或设为私有</li>
+<li>流可以随机访问，但是套接字是不可回溯的</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>阻塞</th>
+<th>处理所有任务</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>run()</td>
+<td>是</td>
+<td>是</td>
+<td>适用于长期运行的程序，如服务器</td>
+</tr>
+<tr>
+<td>poll()</td>
+<td>否</td>
+<td>否（仅执行当前可用任务）</td>
+<td>适用于事件轮询，避免阻塞线程</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>任务执行方式</th>
+<th>是否立即执行</th>
+<th>线程安全性</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>post()</td>
+<td>总是异步执行</td>
+<td>否</td>
+<td>是</td>
+<td>始终异步提交任务，不管哪个线程调用，都加入io_context队列</td>
+</tr>
+<tr>
+<td>dispatch()</td>
+<td>当前线程是io_context线程：同步执行 否则：异步提交到io_context</td>
+<td>可能立即执行</td>
+<td>是</td>
+<td>优先在当前线程中执行，如果不在io_context线程，则变为异步提交</td>
+</tr>
+<tr>
+<td>wrap()</td>
+<td>创建包装器，一般用于保证strand任务按顺序执行</td>
+<td>取决于post()或dispatch()</td>
+<td>是</td>
+<td>保证任务顺序执行，即使任务在不同线程上运行</td>
+</tr>
+</tbody></table>
+<ul>
+<li>为了使socket和缓冲区（read或者write）在整个异步操作的生命周期中一直活动，需要采取特殊的防护措施：连接类需要继承自enabled_shared_from_this，然后在内部保存它需要的缓冲区，而且每次异步调用都要传递一个智能指针给this操作<blockquote>
+<p>协程支持</p>
+</blockquote>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>适用情况</th>
+<th>优势</th>
+<th>劣势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>co_await (C++20)</td>
+<td>现代C++项目</td>
+<td>语法简洁，编译器优化好</td>
+<td>需要C++20</td>
+</tr>
+<tr>
+<td>spawn() (C++11)</td>
+<td>C++11&#x2F;14</td>
+<td>语法简单，像同步代码</td>
+<td>需要boost::asio::yield_context</td>
+</tr>
+<tr>
+<td>coroutine (C++11)</td>
+<td>细粒度控制协程</td>
+<td>无需额外依赖</td>
+<td>代码复杂</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://clee01.github.io/2025/03/31/Boost-asio/" data-id="cm90rmjmg0000c2qoe0fxd00j" data-title="Boost::asio" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-AI知识笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/03/13/AI%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" class="article-date">
@@ -710,6 +849,10 @@
       <ul>
         
           <li>
+            <a href="/2025/03/31/Boost-asio/">Boost::asio</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/13/AI%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/">AI知识笔记</a>
           </li>
         
@@ -723,10 +866,6 @@
         
           <li>
             <a href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/">Linux页表体系笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/07/Proven-Techniques-for-Heightened-Performance/">[WIP] 性能调优的技术</a>
           </li>
         
       </ul>
