@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"clee01.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序 执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上 Windows上是放在线程信息块TIB中 Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中 在libstdc">
+    <meta name="description" content="知识点提炼 异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序 执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上 Windows上是放在线程信息块TIB中 Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中 在li">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++异常处理笔记">
 <meta property="og:url" content="https://clee01.github.io/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Hello, my world!">
-<meta property="og:description" content="异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序 执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上 Windows上是放在线程信息块TIB中 Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中 在libstdc">
+<meta property="og:description" content="知识点提炼 异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序 执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上 Windows上是放在线程信息块TIB中 Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中 在li">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-03-07T05:58:48.000Z">
-<meta property="article:modified_time" content="2025-03-12T16:24:10.155Z">
+<meta property="article:modified_time" content="2025-04-11T06:26:23.658Z">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
 
@@ -120,7 +120,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%82%B9%E6%8F%90%E7%82%BC"><span class="nav-number">1.</span> <span class="nav-text">知识点提炼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -197,7 +197,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-03-13 00:24:10" itemprop="dateModified" datetime="2025-03-13T00:24:10+08:00">2025-03-13</time>
+      <time title="Modified: 2025-04-11 14:26:23" itemprop="dateModified" datetime="2025-04-11T14:26:23+08:00">2025-04-11</time>
     </span>
 
   
@@ -209,7 +209,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><ul>
+    <div class="post-body" itemprop="articleBody"><h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
 <li>异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序</li>
 <li>执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上<ul>
 <li>Windows上是放在线程信息块TIB中</li>
@@ -228,7 +228,7 @@
 <li>抛出一个表达式时，被抛出对象的静态编译时类型将决定异常对象的类型</li>
 <li>异常规格在C++11中被弃用，C++11定义了新的noexcept关键字，如果在函数声明后直接加上noexcept关键字，表示函数不会抛出异常。如果保证不抛出异常的函数实际上抛出了异常，将直接调用terminate终止程序的运行</li>
 </ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/C%2B%2B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">C++异常处理</a></li>
 </ol>
 

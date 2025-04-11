@@ -27,7 +27,7 @@
 <meta property="og:description" content="虚拟内存与物理内存映射 物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置） struct page：内核中使用其来封装每页内存块的状态信息 PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一 全局数组mem_map：表示系统中每一物理内存页，通常存储在内核的虚拟地址空间中；在内核的初始化阶">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-02-21T01:35:07.000Z">
-<meta property="article:modified_time" content="2025-02-23T13:52:02.508Z">
+<meta property="article:modified_time" content="2025-04-11T06:26:58.328Z">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
 
@@ -120,7 +120,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E4%B8%8E%E7%89%A9%E7%90%86%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84"><span class="nav-number">1.</span> <span class="nav-text">虚拟内存与物理内存映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E4%B8%8E%E7%89%A9%E7%90%86%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84"><span class="nav-number">1.</span> <span class="nav-text">虚拟内存与物理内存映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -197,7 +197,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-02-23 21:52:02" itemprop="dateModified" datetime="2025-02-23T21:52:02+08:00">2025-02-23</time>
+      <time title="Modified: 2025-04-11 14:26:58" itemprop="dateModified" datetime="2025-04-11T14:26:58+08:00">2025-04-11</time>
     </span>
 
   
@@ -209,7 +209,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="虚拟内存与物理内存映射"><a href="#虚拟内存与物理内存映射" class="headerlink" title="虚拟内存与物理内存映射"></a>虚拟内存与物理内存映射</h1><ul>
+    <div class="post-body" itemprop="articleBody"><h2 id="虚拟内存与物理内存映射"><a href="#虚拟内存与物理内存映射" class="headerlink" title="虚拟内存与物理内存映射"></a>虚拟内存与物理内存映射</h2><ul>
 <li>物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置）</li>
 <li>struct page：内核中使用其来封装每页内存块的状态信息</li>
 <li>PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一</li>
@@ -275,7 +275,7 @@
 <li>CPU高速缓存L1、L2、L3 cache缓存热点PDE、PTE</li>
 <li>MMU引入硬件缓存TLB(Translation Lookaside Buffer)缓存被MMU翻译之后的热点PTE</li>
 </ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/fbedfe3a68551aa100754a874">详解虚拟内存如何与物理内存进行映射</a></li>
 </ol>
 
