@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -146,6 +146,90 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/04/22/fmtlog%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Claark Lee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/22/fmtlog%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/" class="post-title-link" itemprop="url">fmtlog源码扫读</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-04-22 00:19:21 / Modified: 00:35:52" itemprop="dateCreated datePublished" datetime="2025-04-22T00:19:21+08:00">2025-04-22</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="核心代码布局"><a href="#核心代码布局" class="headerlink" title="核心代码布局"></a>核心代码布局</h2><ul>
+<li>fmtlog.h —— 公开接口<ul>
+<li>头文件只暴露接口</li>
+</ul>
+</li>
+<li>fmtlog-inl.h —— 模板以及内联实现<ul>
+<li>模板&#x2F;内联实现集中管理</li>
+</ul>
+</li>
+<li>fmtlog.cc —— 非模板实现以及显式实例化<ul>
+<li>通过<code>#include &quot;fmtlog-inl.h&quot;</code>来看到模板的实现，并在这里做显式实例化</li>
+<li>核心实现只编译一次</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
