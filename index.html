@@ -193,7 +193,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 18:43:25" itemprop="dateModified" datetime="2025-04-24T18:43:25+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 19:17:57" itemprop="dateModified" datetime="2025-04-24T19:17:57+08:00">2025-04-24</time>
     </span>
 
   
@@ -206,7 +206,41 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="核心代码布局"><a href="#核心代码布局" class="headerlink" title="核心代码布局"></a>核心代码布局</h2><ul>
+          <h2 id="核心优势"><a href="#核心优势" class="headerlink" title="核心优势"></a>核心优势</h2><ul>
+<li><code>SPSC</code>（单生产者单消费者）无锁队列<ul>
+<li>每个线程都有自己的<code>ThreadBuffer</code>（内部维护一个<code>SPSCVarQueue</code>）</li>
+<li>无锁操作，纳秒级别的操作性能</li>
+</ul>
+</li>
+<li>日志格式化异步化<ul>
+<li>日志格式化是慢操作（<code>fmt::format</code>是CPU密集型）</li>
+<li><code>fmtlog</code>会把格式化操作放到后台线程中异步执行</li>
+<li>前端只做简单的参数编码和推入队列</li>
+</ul>
+</li>
+<li>后端线程的最小堆调度机制<ul>
+<li>后台线程从所有线程的队列中取日志时，使用一个最小堆维护每个线程当前队头的时间戳</li>
+<li>确保日志的全局时间顺序正确，且能保证一定程度的均匀调度</li>
+</ul>
+</li>
+<li>自定义时间戳采样器<ul>
+<li>使用<code>RDTSC</code>指令获取时间戳，比<code>std::chrono</code>快得多</li>
+<li>用一个轻量的时间校准机制（<code>tscns</code>）将<code>tsc</code>映射为纳秒，取代慢速系统调用</li>
+</ul>
+</li>
+<li>刷盘策略合理<ul>
+<li>写文件时不强制<code>fflush</code>，除非：<ul>
+<li>手动调用<code>poll(true)</code></li>
+<li><code>flush</code>超时到了</li>
+</ul>
+</li>
+<li>避免<code>I/O</code>瓶颈拖慢写入线程</li>
+</ul>
+</li>
+<li>内存预分配：内部使用<code>fmt::MemoryBuffer</code>的对象缓存，避免频繁分配和释放内存</li>
+<li>不拷贝写入：参数编码也不需要格式化字符串那样的对象生命周期控制</li>
+</ul>
+<h2 id="核心代码布局"><a href="#核心代码布局" class="headerlink" title="核心代码布局"></a>核心代码布局</h2><ul>
 <li>fmtlog.h —— 公开接口<ul>
 <li>头文件只暴露接口</li>
 </ul>
@@ -225,11 +259,11 @@
 <code class="mermaid">
 classDiagram
 class fmtlogT {
-    +preallocate()
-    +poll()
-    +setHeaderPattern()
-    +startPollingThread()
-    +stopPollingThread()
+    +preallocate()  &#x2F;&#x2F; Preallocate thread queue for current thread
+    +poll()  &#x2F;&#x2F; Collect log msgs from all threads and write to log file
+    +setHeaderPattern()  &#x2F;&#x2F; Set log header pattern with fmt named arguments
+    +startPollingThread()  &#x2F;&#x2F; Run a polling thread in the background
+    +stopPollingThread()  &#x2F;&#x2F; Stop the polling thread
     +registerLogInfo()
     +encodeArgs()
     +decodeArgs()
@@ -386,7 +420,7 @@ backEnd-&gt;&gt;ThreadBuffern: poll()
 <blockquote>
 <p>从<code>data</code>序列化数据中反序列化多个参数，填入<code>args</code>数组中，用于后续<code>fmtlog</code>格式化，并在必要时调用析构函数以管理资源</p>
 </blockquote>
-<p><mark>❓<code>argIdx</code>的作用</mark></p>
+<p><mark><code>argIdx</code>的作用</mark></p>
 <p>主要用作状态控制：</p>
 <ul>
 <li>argIdx &lt; 0: 表示第一次格式化这些参数，参数尚未反序列化过</li>
