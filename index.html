@@ -193,7 +193,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 15:52:35" itemprop="dateModified" datetime="2025-04-24T15:52:35+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 16:30:25" itemprop="dateModified" datetime="2025-04-24T16:30:25+08:00">2025-04-24</time>
     </span>
 
   
@@ -232,6 +232,31 @@ A(FMTLOG宏) --&gt; B(&quot;fmtlog::log()&quot;)
 B --&gt;|首次调用| C(&quot;fmtlog::registerLogInfo(): 注册日志格式&quot;)
 C --&gt; D(&quot;fmtlog::SPSCVarQueueOPT::push(): 日志写入线程缓冲区&quot;)
 B --&gt;|多次调用| D
+</code>
+</pre>
+
+<ul>
+<li>后端处理</li>
+</ul>
+<pre>
+<code class="mermaid">
+graph TD
+A(&quot;startPollingThread(): 开启轮询线程处理日志&quot;) --&gt; B(&quot;fmtlogDetail::poll(): 轮询处理&quot;)
+B --&gt;|从维护的最小堆中取出时间戳最早的日志| C(&quot;handleLog(): 写入membuf&quot;)
+C --&gt; D(&quot;fwrite(): 实际写入日志文件&quot;)
+</code>
+</pre>
+
+<ul>
+<li>前后端交互</li>
+</ul>
+<pre>
+<code class="mermaid">
+sequenceDiagram
+frontEnd1-&gt;&gt;ThreadBuffer1: push()
+frontEndn-&gt;&gt;ThreadBuffern: push()
+backEnd-&gt;&gt;ThreadBuffer1: poll()
+backEnd-&gt;&gt;ThreadBuffern: poll()
 </code>
 </pre>
 
