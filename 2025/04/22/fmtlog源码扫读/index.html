@@ -27,7 +27,7 @@
 <meta property="og:description" content="核心优势 SPSC（单生产者单消费者）无锁队列 每个线程都有自己的ThreadBuffer（内部维护一个SPSCVarQueue） 无锁操作，纳秒级别的操作性能   日志格式化异步化 日志格式化是慢操作（fmt::format是CPU密集型） fmtlog会把格式化操作放到后台线程中异步执行 前端只做简单的参数编码和推入队列   后端线程的最小堆调度机制 后台线程从所有线程的队列中取日志时，使用一">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-04-21T16:19:21.000Z">
-<meta property="article:modified_time" content="2025-04-24T11:17:57.404Z">
+<meta property="article:modified_time" content="2025-04-24T15:39:53.352Z">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
 
@@ -199,7 +199,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 19:17:57" itemprop="dateModified" datetime="2025-04-24T19:17:57+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 23:39:53" itemprop="dateModified" datetime="2025-04-24T23:39:53+08:00">2025-04-24</time>
     </span>
 
   
@@ -246,17 +246,16 @@
 <li>不拷贝写入：参数编码也不需要格式化字符串那样的对象生命周期控制</li>
 </ul>
 <h2 id="核心代码布局"><a href="#核心代码布局" class="headerlink" title="核心代码布局"></a>核心代码布局</h2><ul>
-<li>fmtlog.h —— 公开接口<ul>
-<li>头文件只暴露接口</li>
+<li>fmtlog.h<ul>
+<li>头文件只暴露接口和模板声明</li>
 </ul>
 </li>
-<li>fmtlog-inl.h —— 模板以及内联实现<ul>
-<li>模板&#x2F;内联实现集中管理</li>
+<li>fmtlog-inl.h<ul>
+<li>包含所有实现细节，包括模板定义、<code>inline</code>函数实现等</li>
 </ul>
 </li>
-<li>fmtlog.cc —— 非模板实现以及显式实例化<ul>
-<li>通过<code>#include &quot;fmtlog-inl.h&quot;</code>来看到模板的实现，并在这里做显式实例化</li>
-<li>核心实现只编译一次</li>
+<li>fmtlog.cc<ul>
+<li>通过<code>#include &quot;fmtlog-inl.h&quot;</code>把实现编译成一个.o文件，从而提供可选的非<code>header-only</code>使用方式</li>
 </ul>
 </li>
 </ul>
