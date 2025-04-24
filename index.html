@@ -193,7 +193,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 17:05:49" itemprop="dateModified" datetime="2025-04-24T17:05:49+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 17:47:03" itemprop="dateModified" datetime="2025-04-24T17:47:03+08:00">2025-04-24</time>
     </span>
 
   
@@ -225,13 +225,17 @@
 <code class="mermaid">
 classDiagram
 class fmtlogT {
-    +registerLogInfo()
-    +setLogFile()
+    +preallocate()
     +poll()
-    +flushLogFile()
+    +setHeaderPattern()
+    +startPollingThread()
+    +stopPollingThread()
+    +registerLogInfo()
+    +encodeArgs()
+    +decodeArgs()
     +formatTo()
-    +vformat_to()
-    +formatted_size()
+    +log()
+    +logOnce()
 }
 
 class fmtlogDetailWrapper {
@@ -242,15 +246,14 @@ class fmtlogDetailWrapper {
     +outputFp : FILE*
     +membuf : MemoryBuffer
     +flushLogFile()
-    +poll()
+    +handleLog()
 }
 
-class LogInfo {
-    +fn : FormatToFn
+class StaticLogInfo {
+    +formatToFn : FormatToFn
     +location : const char*
-    +level : LogLevel
-    +fmtString : fmt::string_view
-    +processLocation()
+    +logLevel : LogLevel
+    +formatString : fmt::string_view
 }
 
 class ThreadBuffer {
@@ -270,8 +273,8 @@ class SPSCVarQueueOPT {
     +pop()
 }
 
-fmtlogT --&gt; fmtlogDetailWrapper : uses
-fmtlogDetailWrapper --&gt; LogInfo : owns
+fmtlogDetailWrapper --&gt; fmtlogT : uses
+fmtlogDetailWrapper --&gt; StaticLogInfo : owns
 fmtlogDetailWrapper --&gt; ThreadBuffer : manages
 fmtlogDetailWrapper --&gt; HeapNode : manages
 HeapNode --&gt; ThreadBuffer : references
