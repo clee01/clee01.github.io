@@ -27,7 +27,7 @@
 <meta property="og:description" content="核心代码布局 fmtlog.h —— 公开接口 头文件只暴露接口   fmtlog-inl.h —— 模板以及内联实现 模板&#x2F;内联实现集中管理   fmtlog.cc —— 非模板实现以及显式实例化 通过#include &quot;fmtlog-inl.h&quot;来看到模板的实现，并在这里做显式实例化 核心实现只编译一次    核心类UML图  classDiagram class">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-04-21T16:19:21.000Z">
-<meta property="article:modified_time" content="2025-04-24T09:47:03.918Z">
+<meta property="article:modified_time" content="2025-04-24T09:54:06.375Z">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
 
@@ -199,7 +199,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 17:47:03" itemprop="dateModified" datetime="2025-04-24T17:47:03+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 17:54:06" itemprop="dateModified" datetime="2025-04-24T17:54:06+08:00">2025-04-24</time>
     </span>
 
   
@@ -278,7 +278,7 @@ class SPSCVarQueueOPT {
     +pop()
 }
 
-fmtlogDetailWrapper --&gt; fmtlogT : uses
+fmtlogT --&gt; fmtlogDetailWrapper : uses
 fmtlogDetailWrapper --&gt; StaticLogInfo : owns
 fmtlogDetailWrapper --&gt; ThreadBuffer : manages
 fmtlogDetailWrapper --&gt; HeapNode : manages
