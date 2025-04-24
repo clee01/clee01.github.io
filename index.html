@@ -193,7 +193,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 14:09:50" itemprop="dateModified" datetime="2025-04-24T14:09:50+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 15:52:35" itemprop="dateModified" datetime="2025-04-24T15:52:35+08:00">2025-04-24</time>
     </span>
 
   
@@ -222,13 +222,16 @@
 </li>
 </ul>
 <h2 id="核心类UML图"><a href="#核心类UML图" class="headerlink" title="核心类UML图"></a>核心类<code>UML</code>图</h2><p>[TODO]</p>
-<h2 id="关键流程"><a href="#关键流程" class="headerlink" title="关键流程"></a>关键流程</h2><pre>
+<h2 id="关键流程"><a href="#关键流程" class="headerlink" title="关键流程"></a>关键流程</h2><ul>
+<li>前端处理</li>
+</ul>
+<pre>
 <code class="mermaid">
 graph TD
-A[Hard] --&gt;|Text| B(Round)
-B --&gt; C{Decision}
-C --&gt;|One| D[Result 1]
-C --&gt;|Two| E[Result 2]
+A(FMTLOG宏) --&gt; B(&quot;fmtlog::log()&quot;)
+B --&gt;|首次调用| C(&quot;fmtlog::registerLogInfo(): 注册日志格式&quot;)
+C --&gt; D(&quot;fmtlog::SPSCVarQueueOPT::push(): 日志写入线程缓冲区&quot;)
+B --&gt;|多次调用| D
 </code>
 </pre>
 
