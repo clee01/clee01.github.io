@@ -193,7 +193,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 16:30:25" itemprop="dateModified" datetime="2025-04-24T16:30:25+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 17:05:49" itemprop="dateModified" datetime="2025-04-24T17:05:49+08:00">2025-04-24</time>
     </span>
 
   
@@ -221,7 +221,64 @@
 </ul>
 </li>
 </ul>
-<h2 id="核心类UML图"><a href="#核心类UML图" class="headerlink" title="核心类UML图"></a>核心类<code>UML</code>图</h2><p>[TODO]</p>
+<h2 id="核心类UML图"><a href="#核心类UML图" class="headerlink" title="核心类UML图"></a>核心类<code>UML</code>图</h2><pre>
+<code class="mermaid">
+classDiagram
+class fmtlogT {
+    +registerLogInfo()
+    +setLogFile()
+    +poll()
+    +flushLogFile()
+    +formatTo()
+    +vformat_to()
+    +formatted_size()
+}
+
+class fmtlogDetailWrapper {
+    +logInfos : vector&lt;LogInfo&gt;
+    +bgLogInfos : vector&lt;LogInfo&gt;
+    +threadBuffers : vector&lt;ThreadBuffer*&gt;
+    +bgThreadBuffers : vector&lt;HeapNode&gt;
+    +outputFp : FILE*
+    +membuf : MemoryBuffer
+    +flushLogFile()
+    +poll()
+}
+
+class LogInfo {
+    +fn : FormatToFn
+    +location : const char*
+    +level : LogLevel
+    +fmtString : fmt::string_view
+    +processLocation()
+}
+
+class ThreadBuffer {
+    +varq : SPSCVarQueueOPT
+    +name : char[]
+    +nameSize : size_t
+    +shouldDeallocate : bool
+}
+
+class HeapNode {
+    +tb : ThreadBuffer*
+    +header : MsgHeader*
+}
+
+class SPSCVarQueueOPT {
+    +front() : MsgHeader*
+    +pop()
+}
+
+fmtlogT --&gt; fmtlogDetailWrapper : uses
+fmtlogDetailWrapper --&gt; LogInfo : owns
+fmtlogDetailWrapper --&gt; ThreadBuffer : manages
+fmtlogDetailWrapper --&gt; HeapNode : manages
+HeapNode --&gt; ThreadBuffer : references
+ThreadBuffer --&gt; SPSCVarQueueOPT : contains
+</code>
+</pre>
+
 <h2 id="关键流程"><a href="#关键流程" class="headerlink" title="关键流程"></a>关键流程</h2><ul>
 <li>前端处理</li>
 </ul>
@@ -229,9 +286,9 @@
 <code class="mermaid">
 graph TD
 A(FMTLOG宏) --&gt; B(&quot;fmtlog::log()&quot;)
-B --&gt;|首次调用| C(&quot;fmtlog::registerLogInfo(): 注册日志格式&quot;)
+B --&gt;|首次调用时| C(&quot;fmtlog::registerLogInfo(): 注册日志格式&quot;)
 C --&gt; D(&quot;fmtlog::SPSCVarQueueOPT::push(): 日志写入线程缓冲区&quot;)
-B --&gt;|多次调用| D
+B --&gt;|重复调用后| D
 </code>
 </pre>
 
