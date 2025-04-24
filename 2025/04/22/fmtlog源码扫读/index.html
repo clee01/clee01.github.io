@@ -27,7 +27,7 @@
 <meta property="og:description" content="核心代码布局 fmtlog.h —— 公开接口 头文件只暴露接口   fmtlog-inl.h —— 模板以及内联实现 模板&#x2F;内联实现集中管理   fmtlog.cc —— 非模板实现以及显式实例化 通过#include &quot;fmtlog-inl.h&quot;来看到模板的实现，并在这里做显式实例化 核心实现只编译一次    核心类UML图[TODO] 关键流程graph TD">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-04-21T16:19:21.000Z">
-<meta property="article:modified_time" content="2025-04-24T05:50:04.028Z">
+<meta property="article:modified_time" content="2025-04-24T05:57:22.022Z">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
 
@@ -54,6 +54,8 @@
 
   
 
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.5.0/mermaid.min.js","integrity":"sha256-2obLuIPcceEhkE3G09G33hBdmE55ivVcZUlcKcGNHjU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
 
 
 
@@ -197,7 +199,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-24 13:50:04" itemprop="dateModified" datetime="2025-04-24T13:50:04+08:00">2025-04-24</time>
+      <time title="Modified: 2025-04-24 13:57:22" itemprop="dateModified" datetime="2025-04-24T13:57:22+08:00">2025-04-24</time>
     </span>
 
   
@@ -226,7 +228,7 @@
 </ul>
 <h2 id="核心类UML图"><a href="#核心类UML图" class="headerlink" title="核心类UML图"></a>核心类<code>UML</code>图</h2><p>[TODO]</p>
 <h2 id="关键流程"><a href="#关键流程" class="headerlink" title="关键流程"></a>关键流程</h2><pre class="mermaid">graph TD
-    A-->B1;</pre>
+    A-->B2;</pre>
 
 <h2 id="代码扫读"><a href="#代码扫读" class="headerlink" title="代码扫读"></a>代码扫读</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> fmtlogdetail &#123;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Arg&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnrefPtr</span> : std::false_type</span><br><span class="line">&#123; <span class="keyword">using</span> type = Arg; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnrefPtr</span>&lt;<span class="type">char</span>*&gt; : std::false_type</span><br><span class="line">&#123; <span class="keyword">using</span> type = <span class="type">char</span>*; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnrefPtr</span>&lt;<span class="type">void</span>*&gt; : std::false_type</span><br><span class="line">&#123; <span class="keyword">using</span> type = <span class="type">void</span>*; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Arg&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnrefPtr</span>&lt;std::shared_ptr&lt;Arg&gt;&gt; : std::true_type</span><br><span class="line">&#123; <span class="keyword">using</span> type = Arg; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Arg, <span class="keyword">typename</span> D&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnrefPtr</span>&lt;std::unique_ptr&lt;Arg, D&gt;&gt; : std::true_type</span><br><span class="line">&#123; <span class="keyword">using</span> type = Arg; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Arg&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">UnrefPtr</span>&lt;Arg*&gt; : std::true_type</span><br><span class="line">&#123; <span class="keyword">using</span> type = Arg; &#125;;</span><br><span class="line">&#125;; <span class="comment">// namespace fmtlogdetail</span></span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -508,7 +510,6 @@
   </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
-
 
     </div>
   </footer>
