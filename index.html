@@ -185,9 +185,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2025-06-04 14:36:23 / Modified: 15:00:19" itemprop="dateCreated datePublished" datetime="2025-06-04T14:36:23+08:00">2025-06-04</time>
+      <time title="Created: 2025-06-04 14:36:23" itemprop="dateCreated datePublished" datetime="2025-06-04T14:36:23+08:00">2025-06-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-06-05 15:17:14" itemprop="dateModified" datetime="2025-06-05T15:17:14+08:00">2025-06-05</time>
     </span>
 
   
@@ -200,7 +206,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <ul>
+          <h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
 <li>编译器没办法根据返回值推断模板类型</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> data[<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="function">T <span class="title">GetValue</span><span class="params">(<span class="type">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;T&gt;(data[i]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">float</span> a = <span class="built_in">GetValue</span>(<span class="number">0</span>);  <span class="comment">// 出错了！</span></span><br><span class="line"><span class="type">int</span> b = <span class="built_in">GetValue</span>(<span class="number">1</span>);	<span class="comment">// 也出错了！</span></span><br><span class="line"><span class="type">float</span> a = <span class="built_in">GetValue</span>&lt;<span class="type">float</span>&gt;(<span class="number">0</span>);  <span class="comment">// 正确！</span></span><br><span class="line"><span class="type">int</span> b = <span class="built_in">GetValue</span>&lt;<span class="type">int</span>&gt;(<span class="number">1</span>);  <span class="comment">// 正确！</span></span><br></pre></td></tr></table></figure>
@@ -209,7 +215,26 @@
 <li>整型也可以是模板参数：包括布尔型、不同位数、有无符号的整型，甚至包括指针</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="type">int</span> Size&gt; <span class="keyword">struct</span> <span class="title class_">Array</span></span><br><span class="line">&#123;</span><br><span class="line">    T data[Size];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Array&lt;<span class="type">int</span>, <span class="number">16</span>&gt; arr;  <span class="comment">// OK</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="type">float</span> a&gt; <span class="keyword">class</span> <span class="title class_">E</span> &#123;&#125;;  <span class="comment">// ERROR</span></span><br></pre></td></tr></table></figure>
-<p>- </p>
+<ul>
+<li>类模板和类模板的特化的作用，仅仅是指导编译器选择哪个编译，但是特化之间、特化和它原型的类模板之间，是分别独立实现的</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">class</span> <span class="title class_">TypeToID</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> <span class="type">const</span> NotID = <span class="number">-2</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;&gt; <span class="keyword">class</span> <span class="title class_">TypeToID</span>&lt;<span class="type">float</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> <span class="type">const</span> ID = <span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PrintID</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;ID of float: &quot;</span> &lt;&lt; TypeToID&lt;<span class="type">float</span>&gt;::ID &lt;&lt; endl;       <span class="comment">// Print &quot;1&quot;</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;NotID of float: &quot;</span> &lt;&lt; TypeToID&lt;<span class="type">float</span>&gt;::NotID &lt;&lt; endl; <span class="comment">// Error! TypeToID&lt;float&gt;使用的特化的类，这个类的实现没有NotID这个成员。</span></span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;ID of double: &quot;</span> &lt;&lt; TypeToID&lt;<span class="type">double</span>&gt;::ID &lt;&lt; endl;     <span class="comment">// Error! TypeToID&lt;double&gt;是由类模板实例化出来的，它只有NotID，没有ID这个成员。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>还原指针类型指向的真实类型</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RemovePointer</span>&lt;T*&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> <span class="keyword">typename</span> RemovePointer&lt;T&gt;::Result Result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>标准规定：名称查找会在模板定义和实例化时各做一次，分别处理非依赖性名称和依赖性名称的查找。这就是「两阶段名称查找」这一名词的由来</li>
+<li>确需写<code>enable_if</code>之前，考虑下面可能的替代方案<ul>
+<li>重载（适用于函数模板）</li>
+<li>偏特化（适用于类模板）</li>
+<li>虚函数</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/wuye9036/CppTemplateTutorial">[WIP]CppTemplateTutorial</a></li>
+</ol>
 
       
     </div>
@@ -1298,7 +1323,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-06-04 16:25:04" itemprop="dateModified" datetime="2025-06-04T16:25:04+08:00">2025-06-04</time>
+      <time title="Modified: 2025-06-05 15:18:01" itemprop="dateModified" datetime="2025-06-05T15:18:01+08:00">2025-06-05</time>
     </span>
 
   
@@ -1319,7 +1344,7 @@
 <li>C++20:coroutine</li>
 <li>zookeeper</li>
 <li>[Book] The Design and Evolution of C++</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/wuye9036/CppTemplateTutorial">CppTemplateTutorial</a> -&gt; C++ Templates &amp; Generic Programming -&gt; Modern C++ Design -&gt; 元编程部分Typelist</li>
+<li><del><a target="_blank" rel="noopener" href="https://github.com/wuye9036/CppTemplateTutorial">[WIP]CppTemplateTutorial</a></del> -&gt; C++ Templates &amp; Generic Programming -&gt; Modern C++ Design -&gt; 元编程部分Typelist</li>
 </ul>
 
       
