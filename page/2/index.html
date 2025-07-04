@@ -472,7 +472,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/06/Cpp-Primer-Plus-v5-md/" class="post-title-link" itemprop="url">[WIP] C++ Primer Plus中文版第5版</a>
+          <a href="/2025/02/06/Cpp-Primer-Plus-v5-md/" class="post-title-link" itemprop="url">C++ Primer Plus中文版第5版</a>
         </h2>
 
         <div class="post-meta-container">
@@ -482,9 +482,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2025-02-06 21:27:08 / Modified: 22:50:25" itemprop="dateCreated datePublished" datetime="2025-02-06T21:27:08+08:00">2025-02-06</time>
+      <time title="Created: 2025-02-06 21:27:08" itemprop="dateCreated datePublished" datetime="2025-02-06T21:27:08+08:00">2025-02-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-07-04 15:53:43" itemprop="dateModified" datetime="2025-07-04T15:53:43+08:00">2025-07-04</time>
     </span>
 
   
@@ -676,7 +682,31 @@
 <blockquote>
 <p>🖊️ 通常应给基类提供一个虚拟析构函数，即使它并不需要析构函数。</p>
 </blockquote>
+<h3 id="重载的两条经验规则"><a href="#重载的两条经验规则" class="headerlink" title="重载的两条经验规则"></a>重载的两条经验规则</h3><ul>
+<li>返回类型协变：重新定义继承的方法，应确保与原来的原型完全相同；但如果返回类型是基类引用或指针，则可以修改为指向派生类的引用或指针</li>
+<li>基类声明如果被重载，在派生类中应重新定义所有的基类版本；如果只重新定义一个版本，则另外两个版本将被隐藏</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dwelling</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">int</span> a)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">double</span> x)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Hovel</span> : <span class="keyword">public</span> Dwelling &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">int</span> a)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">double</span> x)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
+<h2 id="C-中的代码重用"><a href="#C-中的代码重用" class="headerlink" title="C++中的代码重用"></a>C++中的代码重用</h2><h3 id="使用包含还是私有继承"><a href="#使用包含还是私有继承" class="headerlink" title="使用包含还是私有继承"></a>使用包含还是私有继承</h3><blockquote>
+<p>通常，应使用包含来建立<code>has-a</code>关系；如果新类需要访问原有类的保护成员，或需要重新定义虚函数，则应使用私有继承</p>
+</blockquote>
+<h3 id="使用using重新定义访问权限"><a href="#使用using重新定义访问权限" class="headerlink" title="使用using重新定义访问权限"></a>使用using重新定义访问权限</h3><ol>
+<li><code>Student</code>对象能够调用<code>Student::sum()</code>，后者进而将<code>valarray&lt;double&gt;::sum()</code>方法应用于被包含的<code>valarray</code>对象</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">double</span> <span class="title">Student::sum</span><span class="params">()</span> <span class="type">const</span> </span>&#123;  <span class="comment">// public Student method</span></span><br><span class="line">  <span class="keyword">return</span> std::valarray&lt;<span class="type">double</span>&gt;::<span class="built_in">sum</span>();  <span class="comment">// use privately-inherited method</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>使用<code>using</code>声明指出派生类可以使用特定的基类成员，即使采用的是私有派生</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> : <span class="keyword">private</span> std::string, <span class="keyword">private</span> std::valarray&lt;<span class="type">double</span>&gt; &#123;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">using</span> std::valarray&lt;<span class="type">double</span>&gt;::min;</span><br><span class="line">  <span class="keyword">using</span> std::valarray&lt;<span class="type">double</span>&gt;::max;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="虚基类"><a href="#虚基类" class="headerlink" title="虚基类"></a>虚基类</h3><p>虚基类使得从多个类（它们的基类相同）派生出的对象只继承一个基类对象</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Singer</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> Worker &#123; ... &#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Waiter</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> Worker &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SingingWaiter</span> : <span class="keyword">public</span> Singer, <span class="keyword">public</span> Waiter &#123; ... &#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>虚基类的构造只由最底层派生类负责；如果不满足默认构造条件，必须手动构造</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SingingWaiter</span>(<span class="type">const</span> Worker&amp; wk, <span class="type">int</span> p = <span class="number">0</span>, <span class="type">int</span> v = Singer::other)</span><br><span class="line">  : <span class="built_in">Waiter</span>(wk, p), <span class="built_in">Singer</span>(wk, v) &#123;&#125;  <span class="comment">// flawed</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">SingingWaiter</span>(<span class="type">const</span> Worker&amp; wk, <span class="type">int</span> p = <span class="number">0</span>, <span class="type">int</span> v = Singer::other)</span><br><span class="line">  : <span class="built_in">Worker</span>(wk), <span class="built_in">Waiter</span>(wk, p), <span class="built_in">Singer</span>(wk, v) &#123;&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
