@@ -130,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -148,6 +148,103 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Claark Lee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">C++异常处理笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-03-07 13:58:48" itemprop="dateCreated datePublished" datetime="2025-03-07T13:58:48+08:00">2025-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-04-11 14:26:23" itemprop="dateModified" datetime="2025-04-11T14:26:23+08:00">2025-04-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
+<li>异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序</li>
+<li>执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上<ul>
+<li>Windows上是放在线程信息块TIB中</li>
+<li>Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中<blockquote>
+<p>在libstdc++（GCC的标准库实现）中，异常对象的存储和管理涉及__cxa_allocate_exception()和__cxa_get_globals()等函数。__cxa_allocate_exception()在堆上分配异常对象；GCC通过__cxa_get_globals()获取当前线程的异常处理数据结构__cxa_eh_globals，它通常存储在TLS或TCB中；__cxa_eh_globals结构体存储了当前线程的异常对象指针，但并不是存储异常对象本身</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>throw语句抛出的异常对象在匹配成功的catch语句的结束处被析构（即使该catch语句使用的是非引用的传值参数类型）</li>
+<li>由于throw语句都进行了一次副本拷贝，因此异常对象应该是可以复制构造的<ul>
+<li>C++98&#x2F;03：异常对象必须支持拷贝构造</li>
+<li>C++11及以后：可以支持移动构造，减少性能损耗</li>
+</ul>
+</li>
+<li>抛出一个表达式时，被抛出对象的静态编译时类型将决定异常对象的类型</li>
+<li>异常规格在C++11中被弃用，C++11定义了新的noexcept关键字，如果在函数声明后直接加上noexcept关键字，表示函数不会抛出异常。如果保证不抛出异常的函数实际上抛出了异常，将直接调用terminate终止程序的运行</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/C%2B%2B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">C++异常处理</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
