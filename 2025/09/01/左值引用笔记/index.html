@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"clee01.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="基础概念   名称 说明    左值（Lvalue） 在内存中有持久存储地址的对象，有名字，可取地址。如int x&#x3D;5;中的 x   右值（Rvalue） 临时对象、字面值、表达式结果，无法直接取地址。如 5, x+1, std::string(“abc”) 返回的匿名对象   右值引用（T&amp;&amp;） C++11 新增的引用类型，可以绑定到右值上，实现资源“转移”（移动语义）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="左值引用笔记">
+<meta property="og:url" content="https://clee01.github.io/2025/09/01/%E5%B7%A6%E5%80%BC%E5%BC%95%E7%94%A8%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hello, my world!">
+<meta property="og:description" content="基础概念   名称 说明    左值（Lvalue） 在内存中有持久存储地址的对象，有名字，可取地址。如int x&#x3D;5;中的 x   右值（Rvalue） 临时对象、字面值、表达式结果，无法直接取地址。如 5, x+1, std::string(“abc”) 返回的匿名对象   右值引用（T&amp;&amp;） C++11 新增的引用类型，可以绑定到右值上，实现资源“转移”（移动语义）">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-01T13:28:35.000Z">
+<meta property="article:modified_time" content="2025-09-01T14:42:54.834Z">
+<meta property="article:author" content="Claark Lee">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://clee01.github.io/2025/09/01/%E5%B7%A6%E5%80%BC%E5%BC%95%E7%94%A8%E7%AC%94%E8%AE%B0/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://clee01.github.io/2025/09/01/%E5%B7%A6%E5%80%BC%E5%BC%95%E7%94%A8%E7%AC%94%E8%AE%B0/","path":"2025/09/01/左值引用笔记/","title":"左值引用笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>左值引用笔记 | Hello, my world!</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.5.0/mermaid.min.js","integrity":"sha256-2obLuIPcceEhkE3G09G33hBdmE55ivVcZUlcKcGNHjU="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hello, my world!</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">右值引用的主要作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%EF%BC%9A%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8-vs-%E4%B8%87%E8%83%BD%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">分类：右值引用 vs 万能引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#std-move%E5%92%8Cstd-forward"><span class="nav-number">4.</span> <span class="nav-text">std::move和std::forward</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">5.</span> <span class="nav-text">移动语义使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E4%BC%98%E5%8C%96%E7%9B%B8%E5%85%B3%EF%BC%88RVO-NRVO%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">编译器优化相关（RVO&#x2F;NRVO）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">7.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">8.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#std-move%E6%A0%87%E5%87%86%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%E6%9C%AC%EF%BC%89"><span class="nav-number">8.1.</span> <span class="nav-text">std::move标准实现（简化版本）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#std-forward%E6%A0%87%E5%87%86%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%E6%9C%AC%EF%BC%89"><span class="nav-number">8.2.</span> <span class="nav-text">std::forward标准实现（简化版本）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0%E6%8E%A8%E5%AF%BC%E8%A7%84%E5%88%99"><span class="nav-number">8.3.</span> <span class="nav-text">模板参数推导规则</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Claark Lee</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/09/01/%E5%B7%A6%E5%80%BC%E5%BC%95%E7%94%A8%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Claark Lee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="左值引用笔记 | Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          左值引用笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-09-01 21:28:35 / Modified: 22:42:54" itemprop="dateCreated datePublished" datetime="2025-09-01T21:28:35+08:00">2025-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>左值（Lvalue）</td>
+<td>在内存中有持久存储地址的对象，有名字，可取地址。如int x&#x3D;5;中的 x</td>
+</tr>
+<tr>
+<td>右值（Rvalue）</td>
+<td>临时对象、字面值、表达式结果，无法直接取地址。如 5, x+1, std::string(“abc”) 返回的匿名对象</td>
+</tr>
+<tr>
+<td>右值引用（T&amp;&amp;）</td>
+<td>C++11 新增的引用类型，可以绑定到右值上，实现资源“转移”（移动语义）</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">5</span>;          <span class="comment">// a 是左值</span></span><br><span class="line"><span class="type">int</span> b = a + <span class="number">1</span>;      <span class="comment">// a+1 是右值</span></span><br><span class="line"><span class="type">int</span> &amp;&amp;r = a + <span class="number">1</span>;    <span class="comment">// r 是右值引用，绑定右值 a+1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="右值引用的主要作用"><a href="#右值引用的主要作用" class="headerlink" title="右值引用的主要作用"></a>右值引用的主要作用</h2><ol>
+<li>实现移动语义（Move Semantics）<br>避免不必要的拷贝，将资源从临时对象转移</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyVector</span> &#123;</span><br><span class="line">    <span class="type">int</span>* data;</span><br><span class="line">    <span class="type">size_t</span> size;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MyVector</span>(<span class="type">size_t</span> n) : <span class="built_in">size</span>(n), <span class="built_in">data</span>(<span class="keyword">new</span> <span class="type">int</span>[n]) &#123;&#125;</span><br><span class="line">    ~<span class="built_in">MyVector</span>() &#123; <span class="keyword">delete</span>[] data; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 移动构造</span></span><br><span class="line">    <span class="built_in">MyVector</span>(MyVector&amp;&amp; other) <span class="keyword">noexcept</span> </span><br><span class="line">        : <span class="built_in">data</span>(other.data), <span class="built_in">size</span>(other.size) &#123;</span><br><span class="line">        other.data = <span class="literal">nullptr</span>; other.size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 移动赋值</span></span><br><span class="line">    MyVector&amp; <span class="keyword">operator</span>=(MyVector&amp;&amp; other) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;other) &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] data;</span><br><span class="line">            data = other.data; size = other.size;</span><br><span class="line">            other.data = <span class="literal">nullptr</span>; other.size = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>完美转发（Perfect Forwarding）<br>搭配 std::forward 和万能引用实现泛型函数参数完美传递：</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Args&gt;</span></span><br><span class="line"><span class="function">std::unique_ptr&lt;T&gt; <span class="title">make_obj</span><span class="params">(Args&amp;&amp;... args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> std::<span class="built_in">unique_ptr</span>&lt;T&gt;(<span class="keyword">new</span> <span class="built_in">T</span>(std::forward&lt;Args&gt;(args)...));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>延长临时对象生命周期<br>右值引用变量绑定临时对象后，会延长其生命周期</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line">    <span class="built_in">Demo</span>(<span class="type">const</span> std::string &amp;name) : <span class="built_in">name</span>(name) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Construct &quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ~<span class="built_in">Demo</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Destruct &quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::string name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个右值引用，绑定到一个临时对象</span></span><br><span class="line">    Demo &amp;&amp;d = <span class="built_in">Demo</span>(<span class="string">&quot;temp&quot;</span>);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Using object: &quot;</span> &lt;&lt; d.name &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 右值引用存在期间，临时对象不会被销毁</span></span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;End of main\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Construct temp</span><br><span class="line">Using object: temp</span><br><span class="line">End of main</span><br><span class="line">Destruct temp</span><br></pre></td></tr></table></figure>
+
+<h2 id="分类：右值引用-vs-万能引用"><a href="#分类：右值引用-vs-万能引用" class="headerlink" title="分类：右值引用 vs 万能引用"></a>分类：右值引用 vs 万能引用</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>定义形式</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>右值引用</td>
+<td>T&amp;&amp;</td>
+<td>绑定右值，用于移动语义</td>
+</tr>
+<tr>
+<td>万能引用（Forwarding Reference）</td>
+<td>template<typename T> void f(T&amp;&amp; x)</td>
+<td>推导时可同时绑定左值和右值</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">(<span class="type">int</span>&amp;&amp; r)</span></span>;  <span class="comment">// 真正右值引用</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">func2</span><span class="params">(T&amp;&amp; t)</span></span>;   <span class="comment">// 万能引用，可绑定左值右值</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>万能引用是模板推导的结果，本质不同</p>
+</blockquote>
+<h2 id="std-move和std-forward"><a href="#std-move和std-forward" class="headerlink" title="std::move和std::forward"></a>std::move和std::forward</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>std::move</td>
+<td>将对象显式转换为右值引用，触发移动构造或移动赋值。注意不会真的移动资源，只是“允许移动”</td>
+</tr>
+<tr>
+<td>std::forward</td>
+<td>条件性地将参数转发为右值或左值，用于完美转发模板</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::string a = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">std::string b = std::<span class="built_in">move</span>(a); <span class="comment">// a资源转给b</span></span><br><span class="line"><span class="comment">// a是有效但状态未定义的空对象</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="移动语义使用场景"><a href="#移动语义使用场景" class="headerlink" title="移动语义使用场景"></a>移动语义使用场景</h2><ul>
+<li>容器类（std::vector, std::string 等）在扩容时，使用移动构造避免深拷贝</li>
+<li>返回局部对象时，编译器启用 RVO（Return Value Optimization），减少拷贝</li>
+<li>大对象传递时，可以通过 std::move 将临时对象直接移动</li>
+</ul>
+<h2 id="编译器优化相关（RVO-NRVO）"><a href="#编译器优化相关（RVO-NRVO）" class="headerlink" title="编译器优化相关（RVO&#x2F;NRVO）"></a>编译器优化相关（RVO&#x2F;NRVO）</h2><ul>
+<li>C++17 起，返回局部对象几乎必定省略一次移动或拷贝</li>
+<li>std::move有时会关闭 RVO，要谨慎：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">MyVector <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">MyVector <span class="title">v</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="keyword">return</span> v; <span class="comment">// RVO, 无拷贝</span></span><br><span class="line">    <span class="comment">// return std::move(v); // 强制移动构造，可能丢失优化</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>移动后对象仍然有效，但状态未定义<br>只能安全销毁、赋值、或重新初始化，不能假设内容还在</li>
+<li>小对象移动收益小<br>移动语义的意义主要是避免昂贵的深拷贝</li>
+<li>右值引用不能绑定左值<br>必须 std::move 或 std::forward 才能绑定左值</li>
+<li>传值参数和移动语义<br>函数参数按值传递时，即使传入右值，也会先调用拷贝&#x2F;移动构造函数创建副本</li>
+</ol>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="std-move标准实现（简化版本）"><a href="#std-move标准实现（简化版本）" class="headerlink" title="std::move标准实现（简化版本）"></a>std::move标准实现（简化版本）</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> std &#123;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">typename</span> remove_reference&lt;T&gt;::<span class="function">type&amp;&amp; <span class="title">move</span><span class="params">(T&amp;&amp; t)</span> <span class="keyword">noexcept</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 将传入的对象强制转换为右值引用类型</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">typename</span> remove_reference&lt;T&gt;::type&amp;&amp;&gt;(t);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>核心逻辑：</p>
+<ol>
+<li>模板参数 T<br>T 是通过传入对象类型推导出来的，T&amp;&amp; 是万能引用</li>
+<li>remove_reference<T><br>去掉类型中的引用，让 T&amp;&amp; 最终成为一个真正的右值引用类型</li>
+<li>static_cast&lt;…&amp;&amp;&gt;<br>用 static_cast 把传入对象转换为右值引用</li>
+</ol>
+<p>使用示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> x = <span class="number">42</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用 std::move</span></span><br><span class="line"><span class="type">int</span>&amp;&amp; r = std::<span class="built_in">move</span>(x); <span class="comment">// x 被转成右值引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 实际推导过程：</span></span><br><span class="line"><span class="comment">// T 被推导为 int&amp; (因为 x 是左值)</span></span><br><span class="line"><span class="comment">// remove_reference&lt;T&gt;::type 是 int</span></span><br><span class="line"><span class="comment">// 返回类型是 int&amp;&amp;</span></span><br><span class="line"><span class="comment">// static_cast&lt;int&amp;&amp;&gt;(x) 就是个右值引用</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>std::move(x) 不会移动对象内容，只是产生一个右值引用，允许你调用移动构造函数或移动赋值运算符</p>
+</blockquote>
+<h3 id="std-forward标准实现（简化版本）"><a href="#std-forward标准实现（简化版本）" class="headerlink" title="std::forward标准实现（简化版本）"></a>std::forward标准实现（简化版本）</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// C++11 及之后</span></span><br><span class="line"><span class="keyword">namespace</span> std &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> T&amp;&amp; <span class="title">forward</span><span class="params">(std::<span class="type">remove_reference_t</span>&lt;T&gt;&amp; arg)</span> <span class="keyword">noexcept</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. T 是推导出来的类型</span></span><br><span class="line">    <span class="comment">// 2. remove_reference_t&lt;T&gt; 去掉引用</span></span><br><span class="line">    <span class="comment">// 3. 参数是左值引用</span></span><br><span class="line">    <span class="comment">//    =&gt; 如果 T 是 U&amp;，返回 U&amp;</span></span><br><span class="line">    <span class="comment">//    =&gt; 如果 T 是 U，返回 U&amp;&amp;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;T&amp;&amp;&gt;(arg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> T&amp;&amp; <span class="title">forward</span><span class="params">(std::<span class="type">remove_reference_t</span>&lt;T&gt;&amp;&amp; arg)</span> <span class="keyword">noexcept</span> </span>&#123;</span><br><span class="line">    <span class="built_in">static_assert</span>(!std::is_lvalue_reference&lt;T&gt;::value,</span><br><span class="line">                  <span class="string">&quot;bad forward call&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">static_cast</span>&lt;T&amp;&amp;&gt;(arg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace std</span></span><br></pre></td></tr></table></figure>
+<p>核心逻辑：</p>
+<ol>
+<li>std::forward 实际上和 std::move 一样，都是 static_cast&lt;T&amp;&amp;&gt;(arg)</li>
+<li>区别在于：<br> •    std::move 总是无条件转换成右值引用<br> •    std::forward 会根据模板参数 T 来决定是否转换成右值引用</li>
+<li>std::forward 的重载 + static_assert 保证：<br> •    如果 T 是 U&amp;，返回的是左值引用 U&amp;<br> •    如果 T 是 U（非引用），返回的是右值引用 U&amp;&amp;</li>
+</ol>
+<h3 id="模板参数推导规则"><a href="#模板参数推导规则" class="headerlink" title="模板参数推导规则"></a>模板参数推导规则</h3><p>对于函数模板参数推导，规则是：<br>•	如果模板参数是 T&amp;&amp;，而实参是左值：<br>	•	T 推导为 左值引用类型，即 int&amp;<br>•	如果实参是右值：<br>	•	T 推导为实参类型本身，即 int</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/08/28/%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BA%93%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" rel="prev" title="C/C++运行时库知识笔记">
+                  <i class="fa fa-angle-left"></i> C/C++运行时库知识笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Claark Lee</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
