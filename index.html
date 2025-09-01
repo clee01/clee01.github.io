@@ -192,7 +192,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2025-09-01 21:28:35 / Modified: 22:42:54" itemprop="dateCreated datePublished" datetime="2025-09-01T21:28:35+08:00">2025-09-01</time>
+      <time title="Created: 2025-09-01 21:28:35 / Modified: 22:46:51" itemprop="dateCreated datePublished" datetime="2025-09-01T21:28:35+08:00">2025-09-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -339,7 +339,17 @@
 <li>区别在于：<br> •    std::move 总是无条件转换成右值引用<br> •    std::forward 会根据模板参数 T 来决定是否转换成右值引用</li>
 <li>std::forward 的重载 + static_assert 保证：<br> •    如果 T 是 U&amp;，返回的是左值引用 U&amp;<br> •    如果 T 是 U（非引用），返回的是右值引用 U&amp;&amp;</li>
 </ol>
-<h3 id="模板参数推导规则"><a href="#模板参数推导规则" class="headerlink" title="模板参数推导规则"></a>模板参数推导规则</h3><p>对于函数模板参数推导，规则是：<br>•	如果模板参数是 T&amp;&amp;，而实参是左值：<br>	•	T 推导为 左值引用类型，即 int&amp;<br>•	如果实参是右值：<br>	•	T 推导为实参类型本身，即 int</p>
+<h3 id="模板参数推导规则"><a href="#模板参数推导规则" class="headerlink" title="模板参数推导规则"></a>模板参数推导规则</h3><p>对于函数模板参数推导，规则是：</p>
+<ul>
+<li>如果模板参数是 T&amp;&amp;，而实参是左值：<ul>
+<li>T 推导为 左值引用类型，即 int&amp;</li>
+</ul>
+</li>
+<li>如果实参是右值：<ul>
+<li>T 推导为实参类型本身，即 int</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
