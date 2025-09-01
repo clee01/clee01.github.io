@@ -130,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -871,6 +871,223 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/04/25/type-traits%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Claark Lee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Hello, my world!">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/04/25/type-traits%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">type traits笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2025-04-25 14:18:18" itemprop="dateCreated datePublished" datetime="2025-04-25T14:18:18+08:00">2025-04-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-09-02 00:08:50" itemprop="dateModified" datetime="2025-09-02T00:08:50+08:00">2025-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="type-traits"><a href="#type-traits" class="headerlink" title="type traits"></a>type traits</h2><p>type traits 是 C++ 标准库提供的一组模板类和模板变量，用于 在编译期查询类型特性、进行类型变换或静态断言</p>
+<p>特点：</p>
+<ul>
+<li>编译期执行（constexpr）</li>
+<li>不需要运行时开销</li>
+<li>常用于泛型编程、模板元编程、完美转发等</li>
+</ul>
+<h2 id="类型属性查询"><a href="#类型属性查询" class="headerlink" title="类型属性查询"></a>类型属性查询</h2><p>判断一个类型是否满足某种条件：</p>
+<table>
+<thead>
+<tr>
+<th>trait</th>
+<th>功能</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>std::is_integral<T></td>
+<td>是否整型</td>
+<td>std::is_integral<int>::value → true</td>
+</tr>
+<tr>
+<td>std::is_floating_point<T></td>
+<td>是否浮点型</td>
+<td>std::is_floating_point<double>::value → true</td>
+</tr>
+<tr>
+<td>std::is_pointer<T></td>
+<td>是否指针</td>
+<td>std::is_pointer&lt;int*&gt;::value → true</td>
+</tr>
+<tr>
+<td>std::is_reference<T></td>
+<td>是否引用</td>
+<td>std::is_reference&lt;int&amp;&gt;::value → true</td>
+</tr>
+<tr>
+<td>std::is_lvalue_reference<T></td>
+<td>是否左值引用</td>
+<td>std::is_lvalue_reference&lt;int&amp;&gt;::value → true</td>
+</tr>
+<tr>
+<td>std::is_rvalue_reference<T></td>
+<td>是否右值引用</td>
+<td>std::is_rvalue_reference&lt;int&amp;&amp;&gt;::value → true</td>
+</tr>
+<tr>
+<td>std::is_const<T></td>
+<td>是否 const</td>
+<td>std::is_const<const int>::value → true</td>
+</tr>
+<tr>
+<td>std::is_same&lt;T,U&gt;</td>
+<td>两类型是否相同</td>
+<td>std::is_same&lt;int,int&gt;::value → true</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>这些常用于 static_assert 或模板特化做约束</p>
+</blockquote>
+<h2 id="类型变换"><a href="#类型变换" class="headerlink" title="类型变换"></a>类型变换</h2><p>在编译期生成新的类型：</p>
+<table>
+<thead>
+<tr>
+<th>trait</th>
+<th>功能</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>std::remove_reference<T></td>
+<td>去掉引用</td>
+<td>std::remove_reference&lt;int&amp;&gt;::type → int</td>
+</tr>
+<tr>
+<td>std::remove_const<T></td>
+<td>去掉 const</td>
+<td>std::remove_const<const int>::type → int</td>
+</tr>
+<tr>
+<td>std::add_lvalue_reference<T></td>
+<td>添加左值引用</td>
+<td>std::add_lvalue_reference<int>::type → int&amp;</td>
+</tr>
+<tr>
+<td>std::add_rvalue_reference<T></td>
+<td>添加右值引用</td>
+<td>std::add_rvalue_reference<int>::type → int&amp;&amp;</td>
+</tr>
+<tr>
+<td>std::decay<T></td>
+<td>类型衰减，去掉引用、const、数组转指针等</td>
+<td>std::decay&lt;int[3]&gt;::type → int*</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>std::forward 就依赖 std::remove_reference 或 std::decay 来实现完美转发</p>
+</blockquote>
+<h2 id="类型属性组合与逻辑"><a href="#类型属性组合与逻辑" class="headerlink" title="类型属性组合与逻辑"></a>类型属性组合与逻辑</h2><p>C++17 引入 _v 后缀变量模板，便于逻辑组合：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">std::is_integral_v&lt;T&gt;  <span class="comment">// 等价于 std::is_integral&lt;T&gt;::value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 逻辑组合</span></span><br><span class="line">std::conjunction&lt;A, B, C&gt;  <span class="comment">// A &amp;&amp; B &amp;&amp; C</span></span><br><span class="line">std::disjunction&lt;A, B, C&gt;  <span class="comment">// A || B || C</span></span><br><span class="line">std::negation&lt;A&gt;            <span class="comment">// !A</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这在模板 <a href="https://clee01.github.io/2025/04/27/SFINAE%E7%AC%94%E8%AE%B0/">SFINAE</a> 和 enable_if 中非常常用</p>
+</blockquote>
+<h2 id="SFINAE-条件模板控制"><a href="#SFINAE-条件模板控制" class="headerlink" title="SFINAE &#x2F; 条件模板控制"></a>SFINAE &#x2F; 条件模板控制</h2><p>std::enable_if 是 type traits 的经典应用：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">std::<span class="type">enable_if_t</span>&lt;std::is_integral_v&lt;T&gt;, <span class="type">void</span>&gt;</span><br><span class="line"><span class="built_in">foo</span>(T val) &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Integral type\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">foo</span>(<span class="number">5</span>);    <span class="comment">// ok</span></span><br><span class="line"><span class="built_in">foo</span>(<span class="number">3.14</span>); <span class="comment">// 编译失败</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>std::enable_if_t&lt;cond, T&gt; &#x3D; T if cond true; else 不存在 → SFINAE 生效</li>
+</ul>
+<h2 id="其他实用-traits"><a href="#其他实用-traits" class="headerlink" title="其他实用 traits"></a>其他实用 traits</h2><ul>
+<li>std::is_trivially_copyable<T>：是否可以按位拷贝</li>
+<li>std::is_default_constructible<T>：是否可以默认构造</li>
+<li>std::is_nothrow_move_constructible<T>：移动构造是否不抛异常</li>
+<li>std::alignment_of<T>：类型对齐</li>
+<li>std::extent<T>：数组维度</li>
+</ul>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>完美转发：配合 std::forward 和 std::remove_reference</li>
+<li>静态断言：static_assert(std::is_integral<T>::value, “必须整型”);</li>
+<li>SFINAE：std::enable_if 控制模板实例化</li>
+<li>优化：区分 trivially copyable vs 非 trivially copyable</li>
+<li>泛型算法：根据类型特性做不同处理</li>
+</ol>
+<h2 id="实现原理简析"><a href="#实现原理简析" class="headerlink" title="实现原理简析"></a>实现原理简析</h2><p>C++ type traits 的实现本质上是 模板特化 + constexpr static 成员：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基本实现思想</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">is_pointer</span> &#123; <span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">bool</span> value = <span class="literal">false</span>; &#125;;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct</span> <span class="title class_">is_pointer</span>&lt;T*&gt; &#123; <span class="type">static</span> <span class="keyword">constexpr</span> <span class="type">bool</span> value = <span class="literal">true</span>; &#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通用模板给默认值</li>
+<li>偏特化匹配特定类型</li>
+<li>C++17 引入 _v 变量模板简化 .value</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/04/25/%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1382,202 +1599,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/03/31/Boost-asio/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/03/31/Boost-asio/" class="post-title-link" itemprop="url">Boost::asio</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-03-31 14:53:15" itemprop="dateCreated datePublished" datetime="2025-03-31T14:53:15+08:00">2025-03-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-09-01 17:58:06" itemprop="dateModified" datetime="2025-09-01T17:58:06+08:00">2025-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
-<li>Boost.Asio使用<em>io_context</em>同操作系统的输入&#x2F;输出服务进行交互</li>
-<li>io_context是线程安全的，可以被多个线程同时调用</li>
-<li>io_context::run()会阻塞线程，直到io_context内部的任务都完成</li>
-<li>单线程调用io_context::run(): 所有回调都在该线程执行</li>
-<li>多线程调用io_context::run(): 对个线程共享io_context的任务，并发执行回调</li>
-<li>socket类不是<em>线程安全</em>的</li>
-<li>close(): 关闭套接字后，调用这个套接字上任何的异步操作都会被立即关闭，同时返回<em>error::operation_aborted</em>错误码</li>
-<li>shutdown(type_of_shutdown): 部分关闭套接字，是send或receive操作失效，或两者都失效。只是逻辑上的关闭，底层的TCP连接仍然保持</li>
-<li>cancel(): 取消套接字上所有的异步操作。这个套接字上任何的异步操作都会立即结束，然后返回error::operation_aborted错误码。不会关闭套接字，可以继续使用</li>
-<li>套接字实例不能被拷贝，其拷贝构造函数和赋值运算符被删除或设为私有</li>
-<li>流可以随机访问，但是套接字是不可回溯的</li>
-</ul>
-<blockquote>
-<p>监听循环</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>阻塞</th>
-<th>处理所有任务</th>
-<th>适用场景</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>run()</td>
-<td>是</td>
-<td>是</td>
-<td>适用于长期运行的程序，如服务器</td>
-</tr>
-<tr>
-<td>poll()</td>
-<td>否</td>
-<td>否（仅执行当前可用任务）</td>
-<td>适用于事件轮询，避免阻塞线程</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>异步调用方法</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>任务执行方式</th>
-<th>是否立即执行</th>
-<th>线程安全性</th>
-<th>适用场景</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>post()</td>
-<td>总是异步执行</td>
-<td>否</td>
-<td>是</td>
-<td>始终异步提交任务，不管哪个线程调用，都加入io_context队列</td>
-</tr>
-<tr>
-<td>dispatch()</td>
-<td>当前线程是io_context线程：同步执行 否则：异步提交到io_context</td>
-<td>可能立即执行</td>
-<td>是</td>
-<td>优先在当前线程中执行，如果不在io_context线程，则变为异步提交</td>
-</tr>
-<tr>
-<td>wrap()</td>
-<td>创建包装器，一般用于保证strand任务按顺序执行</td>
-<td>取决于post()或dispatch()</td>
-<td>是</td>
-<td>保证任务顺序执行，即使任务在不同线程上运行</td>
-</tr>
-</tbody></table>
-<ul>
-<li>为了使socket和缓冲区（read或者write）在整个异步操作的生命周期中一直活动，需要采取特殊的防护措施：连接类需要继承自enable_shared_from_this，然后在内部保存它需要的缓冲区，而且每次异步调用都要传递一个智能指针给this操作<blockquote>
-<p>协程支持</p>
-</blockquote>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>方式</th>
-<th>适用情况</th>
-<th>优势</th>
-<th>劣势</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>co_await (C++20)</td>
-<td>现代C++项目</td>
-<td>语法简洁，编译器优化好</td>
-<td>需要C++20</td>
-</tr>
-<tr>
-<td>spawn() (C++11)</td>
-<td>C++11&#x2F;14</td>
-<td>语法简单，像同步代码</td>
-<td>需要boost::asio::yield_context</td>
-</tr>
-<tr>
-<td>coroutine (C++11)</td>
-<td>细粒度控制协程</td>
-<td>无需额外依赖</td>
-<td>代码复杂</td>
-</tr>
-</tbody></table>
-<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><p><mark>1. async_write本身是个组合操作，内部实际上是调用多次更底层的async_write_some()来把整个buffer写完。所以即使使用strand保证了所有handler是串行执行的，但是多个async_write同时发起时，它们的多个内部async_write_some可能会交错进行（因为同时调了多个async_write）<mark> <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7754695/boost-asio-async-write-how-to-not-interleaving-async-write-calls">最佳实践</a></p>
-
       
     </div>
 
