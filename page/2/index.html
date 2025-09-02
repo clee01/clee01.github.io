@@ -1,1276 +1,213 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
-
-<script class="next-config" data-name="main" type="application/json">{"hostname":"clee01.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
-
-    <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Hello, my world!</title><meta name="author" content="Claark Lee"><meta name="copyright" content="Claark Lee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="Hello, my world!">
 <meta property="og:url" content="https://clee01.github.io/page/2/index.html">
 <meta property="og:site_name" content="Hello, my world!">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://clee01.github.io/img/butterfly-icon.png">
 <meta property="article:author" content="Claark Lee">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://clee01.github.io/img/butterfly-icon.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://clee01.github.io/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
 
-
-<link rel="canonical" href="https://clee01.github.io/page/2/">
-
-
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"page/2/index.html","title":""}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hello, my world!</title>
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
   
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
 
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
 
-
-
-
-
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
-<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.5.0/mermaid.min.js","integrity":"sha256-2obLuIPcceEhkE3G09G33hBdmE55ivVcZUlcKcGNHjU="}}</script>
-  <script src="/js/third-party/tags/mermaid.js" defer></script>
-
-
-
-
-
-  
-
-
-
-
-
-  <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
-
-  <main class="main">
-    <div class="column">
-      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <h1 class="site-title">Hello, my world!</h1>
-      <i class="logo-line"></i>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger" aria-label="Search" role="button">
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-</header>
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
         
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
   
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-overview-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hello, my world!',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hello, my world!</span></a></span><div id="menus"></div></nav><div id="site-info"><h1 id="site-title">Hello, my world!</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/31/Boost-asio/" title="Boost::asio">Boost::asio</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-03-31T06:53:15.000Z" title="Created 2025-03-31 14:53:15">2025-03-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">编程入门</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/">C++</a></span></div><div class="content">知识点提炼 Boost.Asio使用io_context同操作系统的输入&#x2F;输出服务进行交互 io_context是线程安全的，可以被多个线程同时调用 io_context::run()会阻塞线程，直到io_context内部的任务都完成 单线程调用io_context::run(): 所有回调都在该线程执行 多线程调用io_context::run(): 对个线程共享io_context的任务，并发执行回调 socket类不是线程安全的 close(): 关闭套接字后，调用这个套接字上任何的异步操作都会被立即关闭，同时返回error::operation_aborted错误码 shutdown(type_of_shutdown): 部分关闭套接字，是send或receive操作失效，或两者都失效。只是逻辑上的关闭，底层的TCP连接仍然保持 cancel(): 取消套接字上所有的异步操作。这个套接字上任何的异步操作都会立即结束，然后返回error::operation_aborted错误码。不会关闭套接字，可以继续使用 套接字实例不能被拷贝，其拷贝构造函数和赋值运算符被删...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/13/AI%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" title="AI知识笔记">AI知识笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-03-12T16:00:10.000Z" title="Created 2025-03-13 00:00:10">2025-03-13</time></span></div><div class="content">知识点提炼 Prompt Engineering: 和LLM进行协作 Zero-shot Prompting(零样本提示) Few-shot Learning&#x2F;Prompting(少样本学习&#x2F;提示)   Function Calling: 应用提供一系列的Tools供LLM抉择使用 RAG(Retrieval-Augmented Generation): 检索增强生成，针对上下文长度有限制的主流解决方案 Chunk(文本分块): 尽量保证上下文语义的连贯性的同时，又能够让切分的块尽量的小 Embedding(向量化): 通过模型将各种内容(词、句子、图片等)转化成高维向量的过程 VectorDB(向量数据库) 基座大模型 LLM应用实际解决问题的质量 RAG召回数据的质量(相关性) 大模型本身的推理理解能力   AI Agent: 利用外部Tools处理各项任务 MCP(Model Context Protocol): 串联AI Agent生态的协议  参考 不需要AI和数学知识背景，这篇文章带你学会大模型应用开发  </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" title="C++异常处理笔记">C++异常处理笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-03-07T05:58:48.000Z" title="Created 2025-03-07 13:58:48">2025-03-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">编程入门</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/">C++</a></span></div><div class="content">知识点提炼 异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序 执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上 Windows上是放在线程信息块TIB中 Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中 在libstdc++（GCC的标准库实现）中，异常对象的存储和管理涉及__cxa_allocate_exception()和__cxa_get_globals()等函数。__cxa_allocate_exception()在堆上分配异常对象；GCC通过__cxa_get_globals()获取当前线程的异常处理数据结构__cxa_eh_globals，它通常存储在TLS或TCB中；__cxa_eh_globals结构体存储了当前线程的异常对象指针，但并不是存储异常对象本身     throw语句抛出的异常对象在匹配成功的catch语句的结束处被析构（即使该catch语句使用的是非引用的传值参数...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/" title="个人2025年规划">个人2025年规划</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-03-06T10:01:48.000Z" title="Created 2025-03-06 18:01:48">2025-03-06</time></span></div><div class="content"> 3fs ceph etcd boost::asio: https://www.bluepuni.com/archives/asio-io-context/ C++20:coroutine zookeeper [Book] The Design and Evolution of C++ [WIP]CppTemplateTutorial -&gt; C++ Templates &amp; Generic Programming -&gt; Modern C++ Design -&gt; 元编程部分Typelist fmtlog  </div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/" title="Linux页表体系笔记">Linux页表体系笔记</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-02-21T01:35:07.000Z" title="Created 2025-02-21 09:35:07">2025-02-21</time></span></div><div class="content">虚拟内存与物理内存映射 物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置） struct page：内核中使用其来封装每页内存块的状态信息 PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一 全局数组mem_map：表示系统中每一物理内存页，通常存储在内核的虚拟地址空间中；在内核的初始化阶段通过物理内存区域和页表映射来创建的 NUMA(Non-Uniform Memory Access)内存架构：与物理CPU(或CPU Socket)一一对应，每个物理CPU内的所有物理核心和逻辑核心都共享该节点的本地内存；每个NUMA节点的物理内存会被映射到全局mem_map中的一段区域  1234typedef struct pglist_data &#123;    int node_id;  // NUMA节点id    struct page* node_mem_map;  // 指向NUMA节点管理所有物理页page的数组&#125;  进程虚拟内存空间分类 未分配页面：非常庞...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/02/07/Proven-Techniques-for-Heightened-Performance/" title="[WIP] 性能调优的技术">[WIP] 性能调优的技术</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-02-07T02:54:25.000Z" title="Created 2025-02-07 10:54:25">2025-02-07</time></span></div><div class="content"> 本文主要记录作者在工作过程中关于性能调优方面的点滴，仅涵盖C++  方法论性能调优的流程 工具总结CPU: top, vmstat, pidstat, sar, perf内存: top, free, vmstat, cachetop, cachestat, sar, gperftools磁盘: top, iostat, iotop, vmstat, pidstat, du&#x2F;df网络: netstat, sar, dstat, tcpdump应用: profiler, dump分析 CPU CPU利用率高本身不是问题，关注CPU负载更能判断系统计算资源是否健康  CPU利用率高 且 平均负载高常见于CPU计算密集型应用，大量消耗CPU资源的应用场景有：  正则操作 数学运算 序列化&#x2F;反序列化 反射操作 死循环或不合理的大量循环 基础&#x2F;第三方组件缺陷  排查以及验证思路：通过Profiling的方式，得到应用一段时间内的on-CPU火焰图，进而定位问题。另外，CPU利用率过高也有可能是CPU本身性能瓶颈导致的，可进一步通过vmstat查看详细的CPU利...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2025/02/06/Cpp-Primer-Plus-v5-md/" title="C++ Primer Plus中文版第5版">C++ Primer Plus中文版第5版</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2025-02-06T13:27:08.000Z" title="Created 2025-02-06 21:27:08">2025-02-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/">编程入门</a><i class="fas fa-angle-right article-meta-link"></i><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/">C++</a></span></div><div class="content"> 本文主要记录自己阅读C++ Primer Plus中文版第5版后结合自己的认知所做的一些查漏补缺  复合类型指针的危险12long* fellow;      // create a pointer-to-long*fellow = 223323;  // place a value in never-never land 由于fellow没有被初始化，它可能是任何值。不管值是什么，程序都将它解释为存储223323的地址。如果fellow的值碰巧为1200，计算机将把数据放在1200上，即使这恰巧是程序代码的地址。fellow指向的地方很可能并不是所要存储223323的地方。这种错误可能会导致一些最隐匿、最难以跟踪的bug。  ⚠️ 一定要在对指针应用解除引用操作符（*）之前，将指针初始化为一个确定的、适当的地址。这是关于使用指针的金科玉律。  老生常谈的事儿：即使是最好的程序员和软件公司，也可能导致内存泄漏。要避免内存泄漏，最好养成这样一种习惯，即同时使用new和delete操作符，在自由存储空间上动态分配内存，随后便释放它。 函数——C++的编程模块尽可能使用const将指...</div></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Claark Lee</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/01/%E5%B7%A6%E5%80%BC%E5%BC%95%E7%94%A8%E7%AC%94%E8%AE%B0/" title="左值引用笔记">左值引用笔记</a><time datetime="2025-09-01T13:28:35.000Z" title="Created 2025-09-01 21:28:35">2025-09-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/28/%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BA%93%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" title="C/C++运行时库知识笔记">C/C++运行时库知识笔记</a><time datetime="2025-08-28T06:14:56.000Z" title="Created 2025-08-28 14:14:56">2025-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/28/GPU%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" title="GPU知识笔记">GPU知识笔记</a><time datetime="2025-08-27T16:26:49.000Z" title="Created 2025-08-28 00:26:49">2025-08-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/16/baby-money/" title="baby-money">baby-money</a><time datetime="2025-06-16T02:08:03.000Z" title="Created 2025-06-16 10:08:03">2025-06-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/04/Cpp-Templates%E7%AC%94%E8%AE%B0/" title="Cpp-Templates笔记">Cpp-Templates笔记</a><time datetime="2025-06-04T06:36:23.000Z" title="Created 2025-06-04 14:36:23">2025-06-04</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/"><span class="card-category-list-name">编程入门</span><span class="card-category-list-count">8</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/"><span class="card-category-list-name">C++</span><span class="card-category-list-count">8</span></a></li></ul></li>
+          </ul></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>Archives</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              September 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
         </li>
-        <li class="sidebar-nav-overview">
-          Overview
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/08/">
+            <span class="card-archive-list-date">
+              August 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
         </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Claark Lee</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">17</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-          <a href="/categories/">
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-  </nav>
-</div>
-
-        </div>
-      </div>
-    </div>
-
-    
-  </aside>
-
-
-    </div>
-
-    <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/03/31/Boost-asio/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/03/31/Boost-asio/" class="post-title-link" itemprop="url">Boost::asio</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-03-31 14:53:15" itemprop="dateCreated datePublished" datetime="2025-03-31T14:53:15+08:00">2025-03-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-09-01 17:58:06" itemprop="dateModified" datetime="2025-09-01T17:58:06+08:00">2025-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
-<li>Boost.Asio使用<em>io_context</em>同操作系统的输入&#x2F;输出服务进行交互</li>
-<li>io_context是线程安全的，可以被多个线程同时调用</li>
-<li>io_context::run()会阻塞线程，直到io_context内部的任务都完成</li>
-<li>单线程调用io_context::run(): 所有回调都在该线程执行</li>
-<li>多线程调用io_context::run(): 对个线程共享io_context的任务，并发执行回调</li>
-<li>socket类不是<em>线程安全</em>的</li>
-<li>close(): 关闭套接字后，调用这个套接字上任何的异步操作都会被立即关闭，同时返回<em>error::operation_aborted</em>错误码</li>
-<li>shutdown(type_of_shutdown): 部分关闭套接字，是send或receive操作失效，或两者都失效。只是逻辑上的关闭，底层的TCP连接仍然保持</li>
-<li>cancel(): 取消套接字上所有的异步操作。这个套接字上任何的异步操作都会立即结束，然后返回error::operation_aborted错误码。不会关闭套接字，可以继续使用</li>
-<li>套接字实例不能被拷贝，其拷贝构造函数和赋值运算符被删除或设为私有</li>
-<li>流可以随机访问，但是套接字是不可回溯的</li>
-</ul>
-<blockquote>
-<p>监听循环</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>阻塞</th>
-<th>处理所有任务</th>
-<th>适用场景</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>run()</td>
-<td>是</td>
-<td>是</td>
-<td>适用于长期运行的程序，如服务器</td>
-</tr>
-<tr>
-<td>poll()</td>
-<td>否</td>
-<td>否（仅执行当前可用任务）</td>
-<td>适用于事件轮询，避免阻塞线程</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>异步调用方法</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>任务执行方式</th>
-<th>是否立即执行</th>
-<th>线程安全性</th>
-<th>适用场景</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>post()</td>
-<td>总是异步执行</td>
-<td>否</td>
-<td>是</td>
-<td>始终异步提交任务，不管哪个线程调用，都加入io_context队列</td>
-</tr>
-<tr>
-<td>dispatch()</td>
-<td>当前线程是io_context线程：同步执行 否则：异步提交到io_context</td>
-<td>可能立即执行</td>
-<td>是</td>
-<td>优先在当前线程中执行，如果不在io_context线程，则变为异步提交</td>
-</tr>
-<tr>
-<td>wrap()</td>
-<td>创建包装器，一般用于保证strand任务按顺序执行</td>
-<td>取决于post()或dispatch()</td>
-<td>是</td>
-<td>保证任务顺序执行，即使任务在不同线程上运行</td>
-</tr>
-</tbody></table>
-<ul>
-<li>为了使socket和缓冲区（read或者write）在整个异步操作的生命周期中一直活动，需要采取特殊的防护措施：连接类需要继承自enable_shared_from_this，然后在内部保存它需要的缓冲区，而且每次异步调用都要传递一个智能指针给this操作<blockquote>
-<p>协程支持</p>
-</blockquote>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>方式</th>
-<th>适用情况</th>
-<th>优势</th>
-<th>劣势</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>co_await (C++20)</td>
-<td>现代C++项目</td>
-<td>语法简洁，编译器优化好</td>
-<td>需要C++20</td>
-</tr>
-<tr>
-<td>spawn() (C++11)</td>
-<td>C++11&#x2F;14</td>
-<td>语法简单，像同步代码</td>
-<td>需要boost::asio::yield_context</td>
-</tr>
-<tr>
-<td>coroutine (C++11)</td>
-<td>细粒度控制协程</td>
-<td>无需额外依赖</td>
-<td>代码复杂</td>
-</tr>
-</tbody></table>
-<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><p><mark>1. async_write本身是个组合操作，内部实际上是调用多次更底层的async_write_some()来把整个buffer写完。所以即使使用strand保证了所有handler是串行执行的，但是多个async_write同时发起时，它们的多个内部async_write_some可能会交错进行（因为同时调了多个async_write）<mark> <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7754695/boost-asio-async-write-how-to-not-interleaving-async-write-calls">最佳实践</a></p>
-
       
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/06/">
+            <span class="card-archive-list-date">
+              June 2025
+            </span>
+            <span class="card-archive-list-count">2</span>
+          </a>
+        </li>
       
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/03/13/AI%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/03/13/AI%E7%9F%A5%E8%AF%86%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">AI知识笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-03-13 00:00:10" itemprop="dateCreated datePublished" datetime="2025-03-13T00:00:10+08:00">2025-03-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-11 14:24:54" itemprop="dateModified" datetime="2025-04-11T14:24:54+08:00">2025-04-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
-<li>Prompt Engineering: 和LLM进行协作<ul>
-<li>Zero-shot Prompting(零样本提示)</li>
-<li>Few-shot Learning&#x2F;Prompting(少样本学习&#x2F;提示)</li>
-</ul>
-</li>
-<li>Function Calling: 应用提供一系列的Tools供LLM抉择使用</li>
-<li>RAG(Retrieval-Augmented Generation): 检索增强生成，针对上下文长度有限制的主流解决方案</li>
-<li>Chunk(文本分块): 尽量保证上下文语义的连贯性的同时，又能够让切分的块尽量的小</li>
-<li>Embedding(向量化): 通过模型将各种内容(词、句子、图片等)转化成高维向量的过程</li>
-<li>VectorDB(向量数据库)</li>
-<li>基座大模型</li>
-<li>LLM应用实际解决问题的质量<ul>
-<li>RAG召回数据的质量(相关性)</li>
-<li>大模型本身的推理理解能力</li>
-</ul>
-</li>
-<li>AI Agent: 利用外部Tools处理各项任务</li>
-<li>MCP(Model Context Protocol): 串联AI Agent生态的协议</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kcGfK7ANUB2tbERjXAvbLw">不需要AI和数学知识背景，这篇文章带你学会大模型应用开发</a></li>
-</ol>
-
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/04/">
+            <span class="card-archive-list-date">
+              April 2025
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
       
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              March 2025
+            </span>
+            <span class="card-archive-list-count">4</span>
+          </a>
+        </li>
       
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/03/07/Cpp%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">C++异常处理笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-03-07 13:58:48" itemprop="dateCreated datePublished" datetime="2025-03-07T13:58:48+08:00">2025-03-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-09-01 17:58:40" itemprop="dateModified" datetime="2025-09-01T17:58:40+08:00">2025-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="知识点提炼"><a href="#知识点提炼" class="headerlink" title="知识点提炼"></a>知识点提炼</h2><ul>
-<li>异常事件发生时，如果一直回退到主函数main都不能处理该异常，则调用系统函数terminate终止程序</li>
-<li>执行throw语句时，其操作数的结果作为对象被复制构造为一个新的对象，放在内存的特殊位置：不是堆栈上<ul>
-<li>Windows上是放在线程信息块TIB中</li>
-<li>Linux上是放在TCB(Thread Control Block)&#x2F;TLS(Thread Local Storage)中<blockquote>
-<p>在libstdc++（GCC的标准库实现）中，异常对象的存储和管理涉及__cxa_allocate_exception()和__cxa_get_globals()等函数。__cxa_allocate_exception()在堆上分配异常对象；GCC通过__cxa_get_globals()获取当前线程的异常处理数据结构__cxa_eh_globals，它通常存储在TLS或TCB中；__cxa_eh_globals结构体存储了当前线程的异常对象指针，但并不是存储异常对象本身</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li>throw语句抛出的异常对象在匹配成功的catch语句的结束处被析构（即使该catch语句使用的是非引用的传值参数类型）</li>
-<li>由于throw语句都进行了一次副本拷贝，因此异常对象应该是可以复制构造的<ul>
-<li>C++98&#x2F;03：异常对象必须支持拷贝构造</li>
-<li>C++11及以后：可以支持移动构造，减少性能损耗</li>
-</ul>
-</li>
-<li>抛出一个表达式时，被抛出对象的静态编译时类型将决定异常对象的类型</li>
-<li>异常规格在C++11中被弃用，C++11定义了新的noexcept关键字，如果在函数声明后直接加上noexcept关键字，表示函数不会抛出异常。如果保证不抛出异常的函数实际上抛出了异常，将直接调用terminate终止程序的运行</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/C%2B%2B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">C++异常处理</a></li>
-</ol>
-
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/02/">
+            <span class="card-archive-list-date">
+              February 2025
+            </span>
+            <span class="card-archive-list-count">3</span>
+          </a>
+        </li>
       
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/03/06/%E4%B8%AA%E4%BA%BA2025%E5%B9%B4%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">个人2025年规划</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-03-06 18:01:48" itemprop="dateCreated datePublished" datetime="2025-03-06T18:01:48+08:00">2025-03-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-06-05 17:25:24" itemprop="dateModified" datetime="2025-06-05T17:25:24+08:00">2025-06-05</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li>3fs</li>
-<li>ceph</li>
-<li>etcd</li>
-<li>boost::asio: <a target="_blank" rel="noopener" href="https://www.bluepuni.com/archives/asio-io-context/">https://www.bluepuni.com/archives/asio-io-context/</a></li>
-<li>C++20:coroutine</li>
-<li>zookeeper</li>
-<li>[Book] The Design and Evolution of C++</li>
-<li><del><a target="_blank" rel="noopener" href="https://github.com/wuye9036/CppTemplateTutorial">[WIP]CppTemplateTutorial</a></del> -&gt; C++ Templates &amp; Generic Programming -&gt; Modern C++ Design -&gt; 元编程部分Typelist</li>
-<li><del>fmtlog</del></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/21/Linux%E9%A1%B5%E8%A1%A8%E4%BD%93%E7%B3%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">Linux页表体系笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-02-21 09:35:07" itemprop="dateCreated datePublished" datetime="2025-02-21T09:35:07+08:00">2025-02-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-11 14:26:58" itemprop="dateModified" datetime="2025-04-11T14:26:58+08:00">2025-04-11</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="虚拟内存与物理内存映射"><a href="#虚拟内存与物理内存映射" class="headerlink" title="虚拟内存与物理内存映射"></a>虚拟内存与物理内存映射</h2><ul>
-<li>物理内存页：内核将整个物理空间划分为一页一页相同的内存块，每个内存块大小为4k（x86_64架构中默认配置）</li>
-<li>struct page：内核中使用其来封装每页内存块的状态信息</li>
-<li>PFN(Page Frame Number)：内核为每个物理内存页page统一编号，一一对应且全局唯一</li>
-<li>全局数组mem_map：表示系统中每一物理内存页，通常存储在内核的虚拟地址空间中；在内核的初始化阶段通过物理内存区域和页表映射来创建的</li>
-<li>NUMA(Non-Uniform Memory Access)内存架构：与物理CPU(或CPU Socket)一一对应，每个物理CPU内的所有物理核心和逻辑核心都共享该节点的本地内存；每个NUMA节点的物理内存会被映射到全局mem_map中的一段区域</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">pglist_data</span> &#123;</span><br><span class="line">    <span class="type">int</span> node_id;  <span class="comment">// NUMA节点id</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">page</span>* node_mem_map;  <span class="comment">// 指向NUMA节点管理所有物理页page的数组</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>进程虚拟内存空间分类<ul>
-<li>未分配页面：非常庞大，远远超过物理内存空间</li>
-<li>已分配未映射页面：通过glibc的malloc接口或者系统调用mmap向内核申请虚拟内存</li>
-<li>正常页面：进程读写已分配未映射的虚拟内存页时，CPU中地址翻译的硬件MMU会产生缺页中断，随后内核分配对应的物理内存页面，并将虚拟内存页和物理内存页映射起来</li>
-</ul>
-</li>
-<li>页表：存储进程虚拟内存与物理内存之间的映射关系，本质也是一个物理内存页；每一条数据称之为页表项PTE(Page Table Entry)<blockquote>
-<p>在32位系统中页表中的PTE占用4个字节，64位系统中页表的PTE占用8个字节</p>
-</blockquote>
-</li>
-<li>struct mm_struct：描述进程的虚拟内存空间，进程间独立，且每个进程都有独立的页表；页表起始地址存放在struct mm_struct的pgd属性中，进程被创建出来时设置<blockquote>
-<p>pgd刚被创建出无法被CPU直接使用，因为其还只是顶级页表的虚拟内存地址</p>
-</blockquote>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">mm_struct</span> &#123;</span><br><span class="line">    <span class="type">pgd_t</span>* pgd;  <span class="comment">// 当前进程顶级页表的起始地址，x86_64架构通常采用四级页表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>四级页表<ul>
-<li>PGD(Page Global Directory)：全局页目录</li>
-<li>PUD(Page Upper Directory)：上层页目录</li>
-<li>PMD(Page Middle Directory)：中间页目录</li>
-<li>PT(Page Table)：页表</li>
-</ul>
-</li>
-<li>虚拟内存地址的格式：页表内的偏移 + 物理内存页内偏移；结合页表起始地址可获取虚拟页在页表中对应的PTE</li>
-<li>进程调度：内核调用context_switch进行进程的上下文切换，主要包括：<ul>
-<li>进程虚拟内存空间的切换</li>
-<li>寄存器以及进程栈的切换<blockquote>
-<p>其中，进程虚拟内存空间的切换包括调用load_new_mm_cr3将进程顶级页表起始地址mm_struct-&gt;pgd中的虚拟内存地址通过__sme_pa宏转换为物理内存地址，并将pgd的物理内存地址加载到cr3寄存器中</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">switch_mm_irqs_off</span><span class="params">(<span class="keyword">struct</span> mm_struct* prev, <span class="keyword">struct</span> mm_struct* next, <span class="keyword">struct</span> task_struct* tsk)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 通过__sme_pa将pgd的虚拟内存地址转换为物理内存地址，并加载到cr3寄存器中</span></span><br><span class="line">    <span class="built_in">load_new_mm_cr3</span>(next-&gt;pgd, new_asid, <span class="literal">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>用户进程正常的内存访问是在用户态进行的，无需进入内核态，除非访问的是以下虚拟内存页面类型：<ul>
-<li>未分配页面</li>
-<li>已分配未映射页面</li>
-<li>已映射，但该虚拟内存页映射的物理内存页被置换到磁盘上了</li>
-</ul>
-</li>
-<li>进程页表分为两个部分：<ul>
-<li>进程用户态页表</li>
-<li>内核页表的copy部分</li>
-</ul>
-</li>
-<li>内核线程之间的调度由于不涉及地址空间切换，因此不会引发TLB缓存和CPU高速缓存的刷新操作，从而避免了进程调度时的性能开销</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">task_struct</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">mm_struct</span>* mm;  <span class="comment">// 对于内核线程来说，它并没有自己的地址空间；因为它始终工作在内核空间中，所有进程看到的都是一样的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>进程调度则涉及地址空间的切换，需要刷新TLB和CPU缓存，带来额外的性能开销</li>
-<li>页表本质上还是一个物理内存页，里面存放的是PTE，保存虚拟内存与物理内存的映射关系；会参与内核的调度，即，会被内核swap in和swap out，也会被缓存在CPU高速缓存中加速访问</li>
-<li>MMU(Memory Management Unit)硬件加速地址翻译过程</li>
-<li>CPU高速缓存L1、L2、L3 cache缓存热点PDE、PTE</li>
-<li>MMU引入硬件缓存TLB(Translation Lookaside Buffer)缓存被MMU翻译之后的热点PTE</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://xie.infoq.cn/article/fbedfe3a68551aa100754a874">详解虚拟内存如何与物理内存进行映射</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/02/07/Proven-Techniques-for-Heightened-Performance/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/07/Proven-Techniques-for-Heightened-Performance/" class="post-title-link" itemprop="url">[WIP] 性能调优的技术</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-02-07 10:54:25" itemprop="dateCreated datePublished" datetime="2025-02-07T10:54:25+08:00">2025-02-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-02-14 11:27:14" itemprop="dateModified" datetime="2025-02-14T11:27:14+08:00">2025-02-14</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>本文主要记录作者在工作过程中关于性能调优方面的点滴，仅涵盖<code>C++</code></p>
-</blockquote>
-<h1 id="方法论"><a href="#方法论" class="headerlink" title="方法论"></a>方法论</h1><h2 id="性能调优的流程"><a href="#性能调优的流程" class="headerlink" title="性能调优的流程"></a>性能调优的流程</h2><p><img src="/images/HP_process.png"></p>
-<h2 id="工具总结"><a href="#工具总结" class="headerlink" title="工具总结"></a>工具总结</h2><p>CPU: top, vmstat, pidstat, sar, perf<br>内存: top, free, vmstat, cachetop, cachestat, sar, gperftools<br>磁盘: top, iostat, iotop, vmstat, pidstat, du&#x2F;df<br>网络: netstat, sar, dstat, tcpdump<br>应用: profiler, dump分析</p>
-<h2 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h2><blockquote>
-<p>CPU利用率高本身不是问题，关注CPU负载更能判断系统计算资源是否健康</p>
-</blockquote>
-<h3 id="CPU利用率高-且-平均负载高"><a href="#CPU利用率高-且-平均负载高" class="headerlink" title="CPU利用率高 且 平均负载高"></a>CPU利用率高 且 平均负载高</h3><p>常见于CPU计算密集型应用，大量消耗CPU资源的应用场景有：</p>
-<ol>
-<li>正则操作</li>
-<li>数学运算</li>
-<li>序列化&#x2F;反序列化</li>
-<li>反射操作</li>
-<li>死循环或不合理的大量循环</li>
-<li>基础&#x2F;第三方组件缺陷</li>
-</ol>
-<p><strong>排查以及验证思路</strong>：通过Profiling的方式，得到应用一段时间内的on-CPU火焰图，进而定位问题。另外，CPU利用率过高也有可能是CPU本身性能瓶颈导致的，可进一步通过vmstat查看详细的CPU利用率。用户态CPU利用率（us）较高，说明用户态进程占用了较多的 CPU，如果这个值长期大于<code>50%</code>，应该着重排查应用本身的性能问题。内核态CPU利用率（sy）较高，说明内核态占用了较多的CPU，所以应该着重排查内核线程或者系统调用的性能问题。如果us + sy的值大于<code>80%</code>，说明CPU可能不足</p>
-<h3 id="CPU利用率低-且-平均负载高"><a href="#CPU利用率低-且-平均负载高" class="headerlink" title="CPU利用率低 且 平均负载高"></a>CPU利用率低 且 平均负载高</h3><p>常见于IO密集型应用</p>
-<p><strong>排查以及验证思路</strong>：使用vmstat 1定时输出系统资源使用，观察%wa(iowait)列的值，该列标识了磁盘IO等待时间在CPU时间片中的百分比，如果这个值超过<code>30%</code>，说明磁盘IO等待严重，这可能是大量的磁盘随机访问或直接的磁盘访问（没有使用系统缓存）造成的，也可能磁盘本身存在瓶颈，可以结合iostat或dstat的输出加以验证，如%wa(iowait)升高同时观察到磁盘的读请求很大，说明可能是磁盘读导致的问题。另外，耗时较长的网络请求（即网络IO）也会导致CPU平均负载升高，如MySQL慢查询、使用RPC接口获取接口数据等。这种情况的排查一般需要结合应用本身的上下游依赖关系以及中间件埋点的trace日志，进行综合分析</p>
-<h3 id="CPU上下文切换次数变高"><a href="#CPU上下文切换次数变高" class="headerlink" title="CPU上下文切换次数变高"></a>CPU上下文切换次数变高</h3><p><strong>排查以及验证思路</strong>：先用vmstat查看系统的上下文切换次数，然后通过pidstat观察进程的自愿上下文切换（cswch）和非自愿上下文切换（nvcswch）情况。自愿上下文切换，是因为应用内部线程状态发生转换所致，譬如调用sleep()、join()、wait()等方法，或使用了mutex锁结构；非自愿上下文切换，是因为线程由于被分配的时间片用完或由于执行优先级被调度器调度所致</p>
-<p>如果自愿上下文切换次数较高，意味着CPU存在资源获取等待，比如说，IO、内存等系统资源不足等。如果是非自愿上下文切换次数较高，可能的原因是应用内线程数过多，导致CPU时间片竞争激烈，频频被系统强制调度</p>
-<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><blockquote>
-<p>内存分为系统内存和进程内存，一般遇到的内存问题，绝大多数都会落在进程内存上，系统资源造成的瓶颈占比较小</p>
-</blockquote>
-<h3 id="系统内存不足"><a href="#系统内存不足" class="headerlink" title="系统内存不足"></a>系统内存不足</h3><p><strong>排查以及验证思路</strong>：</p>
-<ul>
-<li>使用free查看当前内存的可用空间大小，然后vmstat查看具体的内存使用情况及内存增长趋势，这个阶段一般能定位占用内存最多的进程</li>
-<li>分析缓存&#x2F;缓冲区的内存使用。如果这个数值在一段时间内变化不大，可以忽略。如果观察到缓存&#x2F;缓冲区的大小在持续升高，则可以使用pcstat、cachetop、slabtop等工具，分析缓存&#x2F;缓冲区的具体占用</li>
-<li>排除掉缓存&#x2F;缓冲区对系统内存的影响后，如果发现内存还在不断增长，说明很有可能存在内存泄漏</li>
-</ul>
-<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p><strong>排查以及验证思路</strong>：</p>
-<ul>
-<li>查看进程的内存映射，如果堆区不断增长，可能有内存泄漏</li>
-<li>smem -p显示进程的内存占用情况</li>
-<li>借助内存检测工具辅助定位，譬如valgrind&#x2F;asan&#x2F;gperftools</li>
-</ul>
-<h2 id="磁盘IO和网络IO"><a href="#磁盘IO和网络IO" class="headerlink" title="磁盘IO和网络IO"></a>磁盘IO和网络IO</h2><h3 id="磁盘IO"><a href="#磁盘IO" class="headerlink" title="磁盘IO"></a>磁盘IO</h3><p><strong>排查以及验证思路</strong>：</p>
-<ul>
-<li>使用工具输出磁盘相关的输出的指标，常用的有%wa（iowait）、%util，根据输判断磁盘IO是否存在异常，譬如%util这个指标较高，说明有较重的IO行为</li>
-<li>使用pidstat定位到具体进程，关注下读或写的数据大小和速率</li>
-<li>使用lsof + 进程号，可查看该异常进程打开的文件列表（含目录、块设备、动态库、网络套接字等），结合业务代码，一般可定位到IO的来源，如果需要具体分析，还可以使用perf等工具进行trace定位IO源头</li>
-</ul>
-<blockquote>
-<p>需要注意的是，%wa（iowait）的升高不代表一定意味着磁盘IO存在瓶颈，这是数值代表CPU上IO操作的时间占用的百分比，如果应用进程的在这段时间内的主要活动就是IO，那么也是正常的</p>
-</blockquote>
-<h3 id="网络IO"><a href="#网络IO" class="headerlink" title="网络IO"></a>网络IO</h3><p><strong>排查以及验证思路</strong>：</p>
-<ul>
-<li>一次传输的对象过大，可能会导致请求响应慢</li>
-<li>网络IO模型选择不合理，导致应用整体QPS较低，响应时间长</li>
-<li>RPC 调用的线程池设置不合理</li>
-<li>RPC 调用超时时间设置不合理，造成请求失败较多</li>
-</ul>
-<h2 id="有用的一行命令"><a href="#有用的一行命令" class="headerlink" title="有用的一行命令"></a>有用的一行命令</h2><ol>
-<li>查看系统当前网络连接数</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -n | awk <span class="string">&#x27;/^tcp/ &#123;++S[$NF]&#125; END &#123;for(a in S) print a, S[a]&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>按照CPU&#x2F;内存的使用情况列出前10的进程</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 内存</span></span><br><span class="line">ps axo %mem,pid,euser,cmd | <span class="built_in">sort</span> -nr | <span class="built_in">head</span> -10</span><br><span class="line"><span class="comment"># CPU</span></span><br><span class="line">ps -aeo pcpu,user,pid,cmd | <span class="built_in">sort</span> -nr | <span class="built_in">head</span> -10</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>显示系统整体的CPU利用率和闲置率</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep <span class="string">&quot;cpu &quot;</span> /proc/stat | awk -F <span class="string">&#x27; &#x27;</span> <span class="string">&#x27;&#123;total = $2 + $3 + $4 + $5&#125; END &#123;print &quot;idle \t used\n&quot; $5*100/total &quot;% &quot; $2*100/total &quot;%&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>火焰图生成（需要安装perf、perf-map-agent、FlameGraph这三个项目）</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 收集应用运行时的堆栈和符号表信息（采样时间30秒，每秒99个事件）；</span></span><br><span class="line"><span class="built_in">sudo</span> perf record -F 99 -p <span class="variable">$pid</span> -g -- <span class="built_in">sleep</span> 30</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 perf script 生成分析结果，生成的 flamegraph.svg 文件就是火焰图。</span></span><br><span class="line"><span class="built_in">sudo</span> perf script | ./pkgsplit-perf.pl | ./flamegraph.pl &gt; flamegraph.svg</span><br></pre></td></tr></table></figure>
-<ol start="5">
-<li>按照Swap分区的使用情况列出前10的进程</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> /proc/*/status ; <span class="keyword">do</span> awk <span class="string">&#x27;/VmSwap|Name|^Pid/&#123;printf $2 &quot; &quot; $3&#125;END&#123; print &quot;&quot;&#125;&#x27;</span> <span class="variable">$file</span>; <span class="keyword">done</span> | <span class="built_in">sort</span> -k 3 -n -r | <span class="built_in">head</span> -10</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
-<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/727675">如何回答性能优化的问题，才能打动阿里面试官？</a></li>
-<li><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/727625">90%的人会遇到性能问题，如何用1行代码快速定位？</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://clee01.github.io/2025/02/06/Cpp-Primer-Plus-v5-md/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Claark Lee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hello, my world!">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2025/02/06/Cpp-Primer-Plus-v5-md/" class="post-title-link" itemprop="url">C++ Primer Plus中文版第5版</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2025-02-06 21:27:08" itemprop="dateCreated datePublished" datetime="2025-02-06T21:27:08+08:00">2025-02-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-09-01 17:58:18" itemprop="dateModified" datetime="2025-09-01T17:58:18+08:00">2025-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">编程入门</span></a>
-        </span>
-          , 
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>本文主要记录自己阅读<code>C++ Primer Plus中文版第5版</code>后结合自己的认知所做的一些查漏补缺</p>
-</blockquote>
-<h2 id="复合类型"><a href="#复合类型" class="headerlink" title="复合类型"></a>复合类型</h2><h3 id="指针的危险"><a href="#指针的危险" class="headerlink" title="指针的危险"></a>指针的危险</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span>* fellow;      <span class="comment">// create a pointer-to-long</span></span><br><span class="line">*fellow = <span class="number">223323</span>;  <span class="comment">// place a value in never-never land</span></span><br></pre></td></tr></table></figure>
-<p>由于<code>fellow</code>没有被初始化，它可能是任何值。不管值是什么，程序都将它解释为存储<code>223323</code>的地址。如果<code>fellow</code>的值碰巧为<code>1200</code>，计算机将把数据放在<code>1200</code>上，即使这恰巧是程序代码的地址。<code>fellow</code>指向的地方很可能并不是所要存储<code>223323</code>的地方。这种错误可能会导致一些最隐匿、最难以跟踪的<code>bug</code>。</p>
-<blockquote>
-<p>⚠️ 一定要在对指针应用解除引用操作符（<code>*</code>）之前，将指针初始化为一个确定的、适当的地址。这是关于使用指针的金科玉律。</p>
-</blockquote>
-<p><em>老生常谈的事儿：即使是最好的程序员和软件公司，也可能导致内存泄漏。要避免内存泄漏，最好养成这样一种习惯，即同时使用<code>new</code>和<code>delete</code>操作符，在自由存储空间上动态分配内存，随后便释放它。</em></p>
-<h2 id="函数——C-的编程模块"><a href="#函数——C-的编程模块" class="headerlink" title="函数——C++的编程模块"></a>函数——C++的编程模块</h2><h3 id="尽可能使用const"><a href="#尽可能使用const" class="headerlink" title="尽可能使用const"></a>尽可能使用const</h3><p>将指针参数声明为指向常量数据的指针有两条理由：</p>
-<ul>
-<li>这样可以避免由于无意间修改数据而导致的编程错误。</li>
-<li>使用<code>const</code>使得函数能够处理<code>const</code>和非<code>const</code>实参，否则将只能接受非<code>const</code>数据。</li>
-</ul>
-<p>如果条件允许，则应将指针形参声明为指向<code>const</code>的指针。</p>
-<h3 id="使用指针来调用函数"><a href="#使用指针来调用函数" class="headerlink" title="使用指针来调用函数"></a>使用指针来调用函数</h3><p><code>(*pf)</code>扮演的角色与函数名相同，因此使用<code>(*pf)</code>时，只需将它看作函数名即可：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">double</span> <span class="title">pam</span><span class="params">(<span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="built_in">double</span> (*pf)(<span class="type">int</span>);</span><br><span class="line">pf = pam;             <span class="comment">// pf now points the pam() function</span></span><br><span class="line"><span class="type">double</span> x = <span class="built_in">pam</span>(<span class="number">4</span>);    <span class="comment">// call oam() using the function name</span></span><br><span class="line"><span class="type">double</span> y = (*pf)(<span class="number">5</span>);  <span class="comment">// call pam() using the pointer pf</span></span><br></pre></td></tr></table></figure>
-<p>实际上，<code>C++</code>也允许像使用函数名那样使用<code>pf</code>：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> y = <span class="built_in">pf</span>(<span class="number">5</span>);  <span class="comment">// also call pam() using the pointer pf</span></span><br></pre></td></tr></table></figure>
-<p>第一种格式虽然不太好看，但它给出了强有力的提示——代码正在使用函数指针。</p>
-<blockquote>
-<p>✔️ 为何<code>pf</code>和<code>(*pf)</code>等价呢？一种学派认为，由于<code>pf</code>是函数指针，而<code>*pf</code>是函数，因此应将<code>(*pf)()</code>用作函数调用。另一种学派认为，由于函数名是指向该函数的指针，指向函数的指针的行为应与函数名相似，因此应将<code>pf()</code>用作函数调用使用。<code>C++</code>进行了折中————这两种方式都是正确的，或者至少是允许的。虽然它们在逻辑上是互相冲突的。<em>在认为这种折中粗糙之前，应该想到，容忍逻辑上无法自圆其说的观点正是人类思维活动的特点。</em></p>
-</blockquote>
-<h2 id="函数探幽"><a href="#函数探幽" class="headerlink" title="函数探幽"></a>函数探幽</h2><h3 id="临时变量、引用参数和const"><a href="#临时变量、引用参数和const" class="headerlink" title="临时变量、引用参数和const"></a>临时变量、引用参数和const</h3><p>如果实参与引用参数不匹配，<code>C++</code>将生成临时变量。现在，仅当参数为<code>const引用</code>时，<code>C++</code>才允许这样做，编译器将在下面两种情况下生成临时变量：</p>
-<ul>
-<li>实参的类型正确，但不是左值。<em>左值参数是可被引用的数据对象，例如，变量、数组元素、结构成员、引用和被解除引用的指针都是左值。非左值包括字面常量和包含多项的表达式。</em></li>
-<li>实参的类型不正确，但可以转换为正确的类型。</li>
-</ul>
-<blockquote>
-<p>🖌️ 如果函数调用的参数不是左值或与相应的<code>const引用</code>参数的类型不匹配，则<code>C++</code>将创建类型正确的匿名变量，将函数调用的参数的值传递给该匿名变量，并让参数来引用该变量。</p>
-</blockquote>
-<p>考虑非常量引用：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">swapr</span><span class="params">(<span class="type">int</span>&amp; a, <span class="type">int</span>&amp; b)</span> </span>&#123;</span><br><span class="line">  <span class="type">int</span> temp;</span><br><span class="line"></span><br><span class="line">  temp = a;</span><br><span class="line">  a = b;</span><br><span class="line">  b = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果在早期<code>C++</code>较宽松的规则下，执行下面操作：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> a = <span class="number">3</span>, b = <span class="number">5</span>;</span><br><span class="line"><span class="built_in">swapr</span>(a, b);</span><br></pre></td></tr></table></figure>
-<p>这里的类型不匹配，因此编译器将创建两个临时的<code>int</code>变量，将它们初始化为<code>3</code>和<code>5</code>，然后交换临时变量的内容，而<code>a</code>和<code>b</code>保持不变。</p>
-<p>简而言之，如果接受引用参数的函数的意图是修改作为参数传递的变量，则创建临时变量将阻止这种意图的实现。解决方法是，禁止创建临时变量，现在的<code>C++</code>标准正是这样做的，现在尝试编译将会有如下报错：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;source&gt;:13:11: error: cannot bind non-const lvalue reference of type &#x27;int&amp;&#x27; to an rvalue of type &#x27;int&#x27;</span><br><span class="line">   13 |     swapr(a, b);</span><br><span class="line">      |           ^</span><br><span class="line">&lt;source&gt;:4:17: note:   initializing argument 1 of &#x27;void swapr(int&amp;, int&amp;)&#x27;</span><br><span class="line">    4 | void swapr(int&amp; a, int&amp; b) &#123;</span><br><span class="line">      |            ~~~~~^</span><br></pre></td></tr></table></figure>
-
-<p><strong>应尽可能使用<code>const</code></strong></p>
-<ul>
-<li>使用<code>const</code>可以避免无意中修改数据的编程错误。</li>
-<li>使用<code>const</code>使函数能够处理<code>const</code>和<code>非const实参</code>，否则将只能接受<code>非const数据</code>。</li>
-<li>使用<code>const引用</code>使函数能够正确生成并使用临时变量。</li>
-</ul>
-<h2 id="内存模型和名称空间"><a href="#内存模型和名称空间" class="headerlink" title="内存模型和名称空间"></a>内存模型和名称空间</h2><h3 id="5种变量存储方式"><a href="#5种变量存储方式" class="headerlink" title="5种变量存储方式"></a>5种变量存储方式</h3><table>
-<thead>
-<tr>
-<th>存储描述</th>
-<th>持续性</th>
-<th>作用域</th>
-<th>链接性</th>
-<th>如何声明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>自动</td>
-<td>自动</td>
-<td>代码块</td>
-<td>无</td>
-<td>在代码块中（可使用关键字<code>auto</code>）</td>
-</tr>
-<tr>
-<td>寄存器</td>
-<td>自动</td>
-<td>代码块</td>
-<td>无</td>
-<td>在代码块中，使用关键字<code>register</code></td>
-</tr>
-<tr>
-<td>静态，无链接性</td>
-<td>静态</td>
-<td>代码块</td>
-<td>无</td>
-<td>在代码块中，使用关键字<code>static</code></td>
-</tr>
-<tr>
-<td>静态，外部链接性</td>
-<td>静态</td>
-<td>文件</td>
-<td>外部</td>
-<td>在函数外面</td>
-</tr>
-<tr>
-<td>静态，内部链接性</td>
-<td>静态</td>
-<td>文件</td>
-<td>内部</td>
-<td>在函数外面，使用关键字<code>static</code></td>
-</tr>
-</tbody></table>
-<h3 id="说明符和限定符"><a href="#说明符和限定符" class="headerlink" title="说明符和限定符"></a>说明符和限定符</h3><ul>
-<li>存储说明符（<code>storage class specifier</code>）<ul>
-<li><code>auto</code></li>
-<li><code>register</code></li>
-<li><code>static</code></li>
-<li><code>extern</code></li>
-<li><code>mutable</code><blockquote>
-<p>🔖 同一个声明中不能使用多个说明符。<code>auto</code>将变量声明为自动变量；<code>register</code>用于在声明中指示寄存器存储类型。<code>static</code>被用在作用域为整个文件的声明中时，表示内部链接性；被用于局部声明中，表示局部变量的存储持续性为静态的。<code>extern</code>表明是引用声明，即声明引用在其他地方定义的变量。<code>mutable</code>将根据<code>const</code>来解释。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li><code>cv</code>限定符（<code>cv-qualifier</code>）<ul>
-<li><code>const</code></li>
-<li><code>volatile</code></li>
-</ul>
-</li>
-</ul>
-<p><em><code>cv</code>表示<code>const</code>和<code>volatile</code>。</em></p>
-<p>在<code>C++</code>（但不是在<code>C</code>语言）中，<code>const</code>限定符对默认存储类型稍有影响。在默认情况下全局变量的链接性为外部的，但<code>const</code>全局变量的链接性为内部的。也就是说，在<code>C++</code>看来，全局<code>const</code>定义就像使用了<code>static</code>说明符一样</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> fingers = <span class="number">10</span>;  <span class="comment">// same as static const int fingers</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>C++</code>修改了常量类型的规则。假设将一组常量放在头文件中，并在同一个程序的多个文件中使用该头文件。那么，预处理器将头文件的内容包含到每个源文件中后，所有的源文件都将包含类似下面这样的定义：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> fingers = <span class="number">10</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">char</span>* warning = <span class="string">&quot;Wak! &quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>如果全局<code>const</code>声明的链接性像常规变量那样是外部的，则这将出错，因为不能在多个文件中定义同一个全局变量。内部链接性还意味着，每个文件都有自己的一组常量，而不是所有文件共享一组常量。每个定义都是其所属文件私有的，这就是能将常量定义放在头文件中的原因。如果出于某种原因，程序员希望某个常量类型的变量链接性是外部的，则可以使用<code>extern</code>关键字来覆盖默认的内部链接性：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> states = <span class="number">50</span>;  <span class="comment">// external linkage</span></span><br></pre></td></tr></table></figure>
-<p>与常规变量不同的是，<code>external const</code>数据必须初始化。</p>
-<p><code>volatile</code>关键字表明，即使程序代码没有对内存单元进行修改，其值也可能发生变化。例如，可以将一个指针指向某个硬件位置，其中包含了来自串行端口的时间或信息。在这种情况下，硬件（而不是程序）可能修改其中的内容。或者两个程序可能互相影响，共享数据。该关键字的作用是为了改善编译器的优化能力。例如，假设编译器发现，程序在几条语句中两次使用了某个变量的值，则编译器可能不是让程序查找这个值两次，而是将这个值缓存到寄存器中。这种优化假设变量的值在两次使用之间不会变化。如果不将变量声明为<code>volatile</code>，则编译器将进行这种优化。将变量声明为<code>volatile</code>，相当于告诉编译器，不要进行这种优化。</p>
-<p><code>mutable</code>用来指出即使结构（或类）变量为<code>const</code>，其某个成员也可以被修改。例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">data</span> &#123;</span><br><span class="line">  <span class="type">char</span> name[<span class="number">30</span>];</span><br><span class="line">  <span class="keyword">mutable</span> <span class="type">int</span> accesses;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> data veep = &#123;<span class="string">&quot;Claybourne Clodde&quot;</span>, <span class="number">0</span>, ... &#125;;</span><br><span class="line"><span class="built_in">strcpy</span>(veep.name, <span class="string">&quot;Joye Joux&quot;</span>);  <span class="comment">// not allowed</span></span><br><span class="line">veep.accesses++;                 <span class="comment">// allowed</span></span><br></pre></td></tr></table></figure>
-<p><code>veep</code>的<code>const</code>限定符禁止程序修改<code>veep</code>的成员，但<code>accesses</code>成员的<code>mutable</code>说明符使得<code>accesses</code>不受这种限制。</p>
-<h2 id="对象和类"><a href="#对象和类" class="headerlink" title="对象和类"></a>对象和类</h2><h3 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h3><p>每个成员函数（包括构造函数和析构函数）都有一个<code>this</code>指针，<code>this</code>指针指向调用对象。如果方法需要引用整个调用对象，则可以使用表达式<code>*this</code>。在函数的括号后面使用<code>const</code>限定符将<code>this</code>限定为<code>const</code>，这样将不能使用<code>this</code>来修改对象的值。</p>
-<blockquote>
-<p>⚠️ 要创建类对象数组，则这个类必须有默认构造函数。</p>
-</blockquote>
-<h2 id="使用类"><a href="#使用类" class="headerlink" title="使用类"></a>使用类</h2><p><strong>友元是否有悖于<code>OOP</code></strong></p>
-<blockquote>
-<p>📝 因为友元机制允许非成员函数访问私有数据，很多人会认为友元违反了<code>OOP</code>数据隐藏的原则。不过，这个观点太片面了。相反，应将友元函数看作类的扩展接口的组成部分。例如，从概念上看，<code>double</code>乘以<code>Time</code>和<code>Time</code>乘以<code>double</code>是完全相同的。也就是说，前一个要求有友元函数，后一个使用成员函数，这是<code>C++</code>句法的结果，而不是概念上的差别。通过使用友元函数和类方法，可以用同一个用户接口表达这两种操作。另外，只有类声明可以决定哪一个函数是友元，因此类声明仍然控制了哪些函数可以访问私有数据。简而言之，类方法和友元只是表达类接口的两种不同机制。</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">friend</span> Time <span class="keyword">operator</span>*(<span class="type">double</span> m, <span class="type">const</span> Time&amp; t);  <span class="comment">// goes in class declaration</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="转换函数"><a href="#转换函数" class="headerlink" title="转换函数"></a>转换函数</h3><blockquote>
-<p>⚠️ 应谨慎的使用隐式转换函数。通常，最好选择仅在被显式地调用时才会执行的函数。</p>
-</blockquote>
-<p>总之，<code>C++</code>为类提供了下面的类型转换：</p>
-<ul>
-<li>只有一个参数的类构造函数用于将类型与该参数相同的值转换为类类型。例如，将<code>int</code>值赋给<code>Stonewt</code>对象时，接受<code>int</code>参数的<code>Stonewt</code>类构造函数将自动被调用。不过，在构造函数声明中使用<code>explicit</code>可防止隐式转换，而只允许显式转换。</li>
-<li>被称为转换函数的特殊类成员操作符函数，用于将类对象转换为其他类型。转换函数是类成员，没有返回类型、没有参数、名为<code>operator typeName()</code>，其中，<code>typeName</code>是对象将被转换成的类型。将类对象赋给<code>typeName</code>变量或者强制转换为<code>typeName</code>类型时，该转换函数将自动被调用。</li>
-</ul>
-<h2 id="类和动态内存分配"><a href="#类和动态内存分配" class="headerlink" title="类和动态内存分配"></a>类和动态内存分配</h2><blockquote>
-<p>🖍️ 静态数据成员在类声明中声明，在包含类方法的文件中初始化。初始化时使用作用域操作符来指出静态成员所属的类。但如果静态成员是整型或枚举型<code>const</code>，则可以在类声明中初始化。</p>
-</blockquote>
-<h3 id="隐式成员函数"><a href="#隐式成员函数" class="headerlink" title="隐式成员函数"></a>隐式成员函数</h3><p><code>C++</code>自动提供下面这些成员函数：</p>
-<ul>
-<li>默认构造函数，如果没有定义构造函数。</li>
-<li>复制构造函数，如果没有定义。</li>
-<li>赋值操作符，如果没有定义。</li>
-<li>默认析构函数，如果没有定义。</li>
-<li>地址操作符，如果没有定义。</li>
-</ul>
-<p><strong>成员初始化列表的句法</strong></p>
-<blockquote>
-<p>✏️ 如果<code>Classy</code>是一个类，而<code>mem1</code>、<code>mem2</code>和<code>mem3</code>都是这个类的数据成员，则类构造函数可以使用如下的句法来初始化数据成员：</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Classy::<span class="built_in">Classy</span>(<span class="type">int</span> n, <span class="type">int</span> m) : <span class="built_in">mem1</span>(n), <span class="built_in">mem2</span>(<span class="number">0</span>), <span class="built_in">mem3</span>(n * m + <span class="number">2</span>) &#123;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>从概念上说，这些初始化工作是在对象创建时完成的，此时还未执行括号中的任何代码。请注意一下几点：</p>
-<ul>
-<li>这种格式只能用于构造函数。</li>
-<li>必须用这种格式来初始化非静态<code>const</code>数据成员。</li>
-<li>必须用这种格式来初始化引用数据成员。</li>
-</ul>
-<p>数据成员被初始化顺序与它们出现在类声明中的顺序相同，与初始化器中的排列顺序无关。</p>
-</blockquote>
-<h2 id="类继承"><a href="#类继承" class="headerlink" title="类继承"></a>类继承</h2><h3 id="派生类构造函数要点"><a href="#派生类构造函数要点" class="headerlink" title="派生类构造函数要点"></a>派生类构造函数要点</h3><ul>
-<li>基类对象首先被创建。</li>
-<li>派生类构造函数应通过成员初始化列表将基类信息传递给基类构造函数。</li>
-<li>派生类构造函数应初始化派生类新增的数据成员。</li>
-<li>释放对象的顺序与创建对象的顺序相反，即首先执行派生类的析构函数，然后自动调用基类的析构函数。</li>
-</ul>
-<h3 id="虚函数使用成本"><a href="#虚函数使用成本" class="headerlink" title="虚函数使用成本"></a>虚函数使用成本</h3><ul>
-<li>对每个类，编译器都创建一个虚函数表（数组）（<code>virtual function table</code>，<code>vtbl</code>）。</li>
-<li>每个对象都将增大，增大量为存储地址的空间，每个对象都会有一个虚表指针（<code>vptr</code>），其指向该类的虚函数表。</li>
-<li>每个函数调用都需要执行一步额外的操作，即到表中查找地址。</li>
-<li>非虚函数的效率比虚函数稍高，但不具备动态联编功能。</li>
-</ul>
-<blockquote>
-<p>🖊️ 通常应给基类提供一个虚拟析构函数，即使它并不需要析构函数。</p>
-</blockquote>
-<h3 id="重载的两条经验规则"><a href="#重载的两条经验规则" class="headerlink" title="重载的两条经验规则"></a>重载的两条经验规则</h3><ul>
-<li>返回类型协变：重新定义继承的方法，应确保与原来的原型完全相同；但如果返回类型是基类引用或指针，则可以修改为指向派生类的引用或指针</li>
-<li>基类声明如果被重载，在派生类中应重新定义所有的基类版本；如果只重新定义一个版本，则另外两个版本将被隐藏</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dwelling</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">int</span> a)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">double</span> x)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Hovel</span> : <span class="keyword">public</span> Dwelling &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">int</span> a)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">(<span class="type">double</span> x)</span> <span class="type">const</span></span>;</span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">showperks</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="C-中的代码重用"><a href="#C-中的代码重用" class="headerlink" title="C++中的代码重用"></a>C++中的代码重用</h2><h3 id="使用包含还是私有继承"><a href="#使用包含还是私有继承" class="headerlink" title="使用包含还是私有继承"></a>使用包含还是私有继承</h3><blockquote>
-<p>通常，应使用包含来建立<code>has-a</code>关系；如果新类需要访问原有类的保护成员，或需要重新定义虚函数，则应使用私有继承</p>
-</blockquote>
-<h3 id="使用using重新定义访问权限"><a href="#使用using重新定义访问权限" class="headerlink" title="使用using重新定义访问权限"></a>使用using重新定义访问权限</h3><ol>
-<li><code>Student</code>对象能够调用<code>Student::sum()</code>，后者进而将<code>valarray&lt;double&gt;::sum()</code>方法应用于被包含的<code>valarray</code>对象</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">double</span> <span class="title">Student::sum</span><span class="params">()</span> <span class="type">const</span> </span>&#123;  <span class="comment">// public Student method</span></span><br><span class="line">  <span class="keyword">return</span> std::valarray&lt;<span class="type">double</span>&gt;::<span class="built_in">sum</span>();  <span class="comment">// use privately-inherited method</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>使用<code>using</code>声明指出派生类可以使用特定的基类成员，即使采用的是私有派生</li>
-</ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Student</span> : <span class="keyword">private</span> std::string, <span class="keyword">private</span> std::valarray&lt;<span class="type">double</span>&gt; &#123;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="keyword">using</span> std::valarray&lt;<span class="type">double</span>&gt;::min;</span><br><span class="line">  <span class="keyword">using</span> std::valarray&lt;<span class="type">double</span>&gt;::max;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="虚基类"><a href="#虚基类" class="headerlink" title="虚基类"></a>虚基类</h3><p>虚基类使得从多个类（它们的基类相同）派生出的对象只继承一个基类对象</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Singer</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> Worker &#123; ... &#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Waiter</span> : <span class="keyword">virtual</span> <span class="keyword">public</span> Worker &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SingingWaiter</span> : <span class="keyword">public</span> Singer, <span class="keyword">public</span> Waiter &#123; ... &#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>虚基类的构造只由最底层派生类负责；如果不满足默认构造条件，必须手动构造</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SingingWaiter</span>(<span class="type">const</span> Worker&amp; wk, <span class="type">int</span> p = <span class="number">0</span>, <span class="type">int</span> v = Singer::other)</span><br><span class="line">  : <span class="built_in">Waiter</span>(wk, p), <span class="built_in">Singer</span>(wk, v) &#123;&#125;  <span class="comment">// flawed</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">SingingWaiter</span>(<span class="type">const</span> Worker&amp; wk, <span class="type">int</span> p = <span class="number">0</span>, <span class="type">int</span> v = Singer::other)</span><br><span class="line">  : <span class="built_in">Worker</span>(wk), <span class="built_in">Waiter</span>(wk, p), <span class="built_in">Singer</span>(wk, v) &#123;&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
-</div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-
-  <div class="copyright">
-    &copy; 
-    <span itemprop="copyrightYear">2025</span>
-    <span class="with-love">
-      <i class="fa fa-heart"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">Claark Lee</span>
-  </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
-  </div>
-
-    </div>
-  </footer>
-
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-  <div class="sidebar-dimmer"></div>
-  <div class="back-to-top" role="button" aria-label="Back to top">
-    <i class="fa fa-arrow-up fa-lg"></i>
-    <span>0%</span>
-  </div>
-
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
-
-</body>
-</html>
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Website Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article Count :</div><div class="item-count">17</div></div><div class="webinfo-item"><div class="item-name">Unique Visitors :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Page Views :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-02T02:31:15.334Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Claark Lee</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
