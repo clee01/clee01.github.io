@@ -1,0 +1,341 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>tcpshm源码扫读 | Hello, my world!</title><meta name="author" content="Claark Lee"><meta name="copyright" content="Claark Lee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="写在最前 tcpshm源码扫读版本 （部分内容由 AI 协助生成） 全局设计 1234567PTCPQueue       纯数据结构(数组+游标)    ↓PTCPConnection  TCP收发 + 心跳 + 缓冲管理    ↓TcpShmConnection  组装TCP + SHM, 统一API    ↓TcpShmClient&#x2F;Server  CRTP框架,业务回调 文件扫盲 ptcp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tcpshm源码扫读">
+<meta property="og:url" content="https://clee01.github.io/2026/07/23/tcpshm%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/index.html">
+<meta property="og:site_name" content="Hello, my world!">
+<meta property="og:description" content="写在最前 tcpshm源码扫读版本 （部分内容由 AI 协助生成） 全局设计 1234567PTCPQueue       纯数据结构(数组+游标)    ↓PTCPConnection  TCP收发 + 心跳 + 缓冲管理    ↓TcpShmConnection  组装TCP + SHM, 统一API    ↓TcpShmClient&#x2F;Server  CRTP框架,业务回调 文件扫盲 ptcp">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://clee01.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2026-07-23T08:11:26.000Z">
+<meta property="article:modified_time" content="2026-08-03T03:11:51.129Z">
+<meta property="article:author" content="Claark Lee">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://clee01.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "tcpshm源码扫读",
+  "url": "https://clee01.github.io/2026/07/23/tcpshm%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/",
+  "image": "https://clee01.github.io/img/butterfly-icon.png",
+  "datePublished": "2026-07-23T08:11:26.000Z",
+  "dateModified": "2026-08-03T03:11:51.129Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Claark Lee",
+      "url": "https://clee01.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://clee01.github.io/2026/07/23/tcpshm%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'tcpshm源码扫读',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Hello, my world!</span></a><a class="nav-page-title" href="/"><span class="site-name">tcpshm源码扫读</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">tcpshm源码扫读</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-07-23T08:11:26.000Z" title="Created 2026-07-23 16:11:26">2026-07-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-08-03T03:11:51.129Z" title="Updated 2026-08-03 11:11:51">2026-08-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C/">C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="写在最前">写在最前</h2>
+<p><a target="_blank" rel="noopener" href="https://github.com/MengRao/tcpshm/tree/master">tcpshm源码扫读版本</a><br>
+（部分内容由 AI 协助生成）</p>
+<h2 id="全局设计">全局设计</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PTCPQueue       纯数据结构(数组+游标)</span><br><span class="line">    ↓</span><br><span class="line">PTCPConnection  TCP收发 + 心跳 + 缓冲管理</span><br><span class="line">    ↓</span><br><span class="line">TcpShmConnection  组装TCP + SHM, 统一API</span><br><span class="line">    ↓</span><br><span class="line">TcpShmClient/Server  CRTP框架,业务回调</span><br></pre></td></tr></table></figure>
+<h2 id="文件扫盲">文件扫盲</h2>
+<p><code>ptcp_queue.h</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PTCPQueue成员变量</span><br><span class="line">1. 数据存储 - blk_[BLK_CNT] (消息块数组)</span><br><span class="line"></span><br><span class="line">2. 三个位置游标 - write_idx_, read_idx_, send_idx_</span><br><span class="line">   [已ack可回收] [已发未ack(必须保留)] [已Push未发送] [空闲]</span><br><span class="line">   read_idx_    send_idx_           write_idx_        BLK_CNT</span><br><span class="line">   </span><br><span class="line">3. 两个序列号 - read_seq_num_, ack_seq_num_</span><br><span class="line">   read_seq_num_递增: read_idx_递增，即消息已ack可回收时</span><br><span class="line">   ack_seq_num_递增: Pop本端recvbuf数据时</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">PTCPQueue成员函数</span><br><span class="line">1. 写入 - Alloc, Push</span><br><span class="line">   Alloc: 其中，memmove压缩 - 当尾部空间不够但总空间够时，把[read_idx_, write_idx_)移到开头</span><br><span class="line">   Push: header.ack_seq = ack_seq_num_ - piggyback ACK</span><br><span class="line"></span><br><span class="line">2. 发送 - GetSendable, Sendout</span><br><span class="line">   GetSendable: 一次返回连续的待发送块起点和数量，PTCPConnection可以连续`::send`而不用逐块取。这减少方法调用次数，适配批量发送</span><br><span class="line">   Sendout: 只推进send_idx_，不删消息。消息发出≠可删，必须等对端ack才能回收</span><br><span class="line"></span><br><span class="line">3. 确认 - Ack, LoginAck</span><br><span class="line">   Ack: 循环不检查read_idx_ &lt; write_idx_，信任对端不会发恶意ack_seq</span><br><span class="line">   LoginAck: 相较于Ack逻辑，重置send_idx_</span><br><span class="line"></span><br><span class="line">4. 查询 - MyAck</span><br><span class="line"></span><br><span class="line">5. 校验 - SanityCheckAndGetSeq</span><br><span class="line">   &gt; 校验每条消息的ack_seq不超过本端ack_seq_num_(防御损坏/篡改)</span><br><span class="line">   &gt; 校验消息边界对齐(idx == write_idx_，防文件损坏)</span><br><span class="line">   &gt; 填进LoginMsg供对端校验</span><br></pre></td></tr></table></figure>
+<p><code>ptcp_conn.h</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PTCPConnection成员变量</span><br><span class="line">1. 持久化队列 - q_</span><br><span class="line"></span><br><span class="line">2. fd三态机 - sockfd_, fd_to_close_, close_reason_, close_errno_</span><br><span class="line">   两阶段关闭。sockfd_是逻辑状态（活跃/已关闭），fd_to_close_是物理资源（待close的fd）。Close可被其他线程调用，但TryCloseFd只在polling线程调，避免抢fd ?</span><br><span class="line"></span><br><span class="line">3. 接收缓冲 - recvbuf_, recvbuf_size_, writeidx_, nextmsg_idx_, readidx_</span><br><span class="line">   recvbuf_: [已Pop可回收] [已解析未Pop] [已收到未解析] [空闲]</span><br><span class="line">             readidx_     nextmsg_idx_ writeidx_</span><br><span class="line"></span><br><span class="line">4. 时间戳 - recv_time_, send_time_, now_ ?</span><br><span class="line"></span><br><span class="line">5. 心跳/去重 - hbmsg_, last_my_ack_</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PTCPConnection成员函数</span><br><span class="line">1. 文件生命周期 - OpenFile, GetSeq, Reset, Release</span><br><span class="line"></span><br><span class="line">2. 连接生命周期 - Open, Close, TryCloseFd, RequestClose</span><br><span class="line"></span><br><span class="line">3. 状态查询 - IsClosed, UseShm, GetCloseReason</span><br><span class="line"></span><br><span class="line">4. 发送 - Alloc, Push, PushMore, SendPending, SendHB</span><br><span class="line"></span><br><span class="line">5. 接收 - Front, Pop</span><br><span class="line"></span><br><span class="line">6. 底层接收 - DoRecv</span><br></pre></td></tr></table></figure>
+<h3 id="文件生命周期">文件生命周期</h3>
+<ul>
+<li><code>OpenFile</code>: 只mmap，不关心内容（幂等，重复调用安全）</li>
+<li><code>GetSeq</code>: 读持久化状态，登录时用</li>
+<li><code>Reset</code>: 换server时清空（mmap文件保留，内容清零）?</li>
+<li><code>Release</code>: munmap（文件保留，下次可重开）?</li>
+</ul>
+<h3 id="连接生命周期">连接生命周期</h3>
+<ul>
+<li><code>open</code>: 初始化缓冲数据、fd、时间戳数据，崩溃恢复</li>
+<li><code>Close</code>和<code>TryCloseFd</code> : Close只改sockfd_（-1）和reason/errno（x86 对齐 int/指针写原子），多线程安全。TryCloseFd调<code>::close(fd)</code>，必须由work线程独占调用，避免fd产生竞态 ?</li>
+</ul>
+<h3 id="发送">发送</h3>
+<ul>
+<li><code>PushMore</code>: 批量发送优化</li>
+<li><code>SendPending</code>: 循环send直到发完或EAGAIN。部分发送只推进整块数（sent_blk = blk_sz - (size &gt;&gt; 3)），不维护块内偏移——宁可断开下次重发整块也不记半块状态</li>
+<li><code>SendHB</code>: 1. 保活；2. 兜底ack（无业务消息时用HB发ack）；3. 积压检测（有积压先SendPending）</li>
+</ul>
+<h3 id="接收">接收</h3>
+<ul>
+<li>
+<p><code>Front</code></p>
+<ul>
+<li>SHM模式特殊处理: 该模式下TCP通道只做控制平面(心跳保活)，不做数据平面</li>
+<li>检查recvbuf_中“已解析但用户还未Pop”的消息
+<ul>
+<li>跳过心跳包</li>
+<li>利用last_my_ack_避免业务消息重复处理</li>
+<li>DoRecv读取新数据</li>
+<li>解析循环
+<ul>
+<li>old_writeidx记录DoRecv前的位置，用于判断header是否跨新旧边界</li>
+<li>幂等字节序转换: 只在header跨边界或全在新数据时转换，避免重复bswap</li>
+<li>Ack处理对端带来的ack: 不管消息是不是心跳，ack都会处理，让心跳承担“兜底ack”</li>
+<li>防御性检查msg_size上限</li>
+<li>消息不完整就break，等下次DoRecv</li>
+<li>心跳过滤</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>Pop</code></p>
+</li>
+</ul>
+<h3 id="底层接收">底层接收</h3>
+<ul>
+<li><code>DoRecv</code>:
+<ul>
+<li>缓冲归零检查</li>
+<li>计算可写空间，判断扩容策略</li>
+<li>read/readv读socket</li>
+<li>错误/断连处理</li>
+<li>数据落位</li>
+</ul>
+</li>
+</ul>
+<p><code>tcpshm_conn.h</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TcpShmConnection成员变量</span><br><span class="line">1. 身份标识 - local_name_, remote_name_, ptcp_dir_</span><br><span class="line">   - 拼接ptcp文件路径: &lt;ptcp_dir_&gt;/&lt;local_name_&gt;_&lt;remote_name_&gt;.ptcp</span><br><span class="line">   - 拼接SHM文件路径: /&lt;local_name_&gt;_&lt;remote_name_&gt;.shm</span><br><span class="line">   - server换名检测</span><br><span class="line"></span><br><span class="line">2. TCP通道 - ptcp_conn_ (PTCPConnection)</span><br><span class="line"></span><br><span class="line">3. SHM通道 - shm_sendq_, shm_recvq_ (SHMQ*)</span><br><span class="line"></span><br><span class="line">4. 用户数据 - user_data (public)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">TcpShmConnection成员函数</span><br><span class="line">1. 查询 - GetPtcpFile, IsClosed, GetCloseReason, GetRemoteName, GetLocalName, GetPtcpDir</span><br><span class="line"></span><br><span class="line">2. 控制 - Close</span><br><span class="line"></span><br><span class="line">3. 发送 - Alloc, Push, PushMore</span><br><span class="line"></span><br><span class="line">4. 接收 - Front, Pop</span><br><span class="line"></span><br><span class="line">5. 私有成员(仅friend类用)</span><br><span class="line">	- 生命周期: init, OpenFile, GetSeq, Reset, Release, Open, TryCloseFd</span><br><span class="line">	</span><br><span class="line">	- 轮询: TcpFront, ShmFront</span><br></pre></td></tr></table></figure>
+<p><code>tcpshm_client.h</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TcpShmClient成员变量</span><br><span class="line">1. 身份标识 - client_name_, server_name_</span><br><span class="line"></span><br><span class="line">2. 持久化路径 - ptcp_dir_</span><br><span class="line"></span><br><span class="line">3. 连接对象 - conn_</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TcpShmClient成员函数</span><br><span class="line">1. 生命周期 - Connect, Stop</span><br><span class="line"></span><br><span class="line">2. 轮询 - PollTcp, PollShm</span><br><span class="line"></span><br><span class="line">3. 查询 - GetConnection</span><br></pre></td></tr></table></figure>
+<h3 id="生命周期">生命周期</h3>
+<ul>
+<li><code>Connect</code>
+<ul>
+<li>检查已连接、TryCloseFd</li>
+<li>mmap lastserver文件</li>
+<li>构造LoginMsg</li>
+<li>OpenFile、GetSeq(崩溃恢复的序列号)</li>
+<li>socket、setsocketopt(RCVTIMEO/SNDTIMEO/TCP_NODELAY)</li>
+<li>connect、send LoginMsg</li>
+<li>recv LoginRspMsg、校验</li>
+<li>处理登录失败(mismatch/reject)</li>
+<li>处理登录成功(server换名检测、激活conn_)</li>
+</ul>
+</li>
+</ul>
+<p><code>tcpshm_server.h</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">TcpShmServer成员变量</span><br><span class="line">1. 身份标识 - server_name_, ptcp_dir_</span><br><span class="line"></span><br><span class="line">2. 监听socket - listenfd_</span><br><span class="line"></span><br><span class="line">3. 新连接池 - new_conns_, avail_idx_</span><br><span class="line"></span><br><span class="line">4. 连接池 - conn_pool_</span><br><span class="line"></span><br><span class="line">5. 连接分组 - shm_grps_, tcp_grps_</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TcpShmServer成员函数</span><br><span class="line">1. 生命周期 - Start, Stop</span><br><span class="line"></span><br><span class="line">2. 轮询 - PollCtl, PollTcp, PollShm</span><br><span class="line"></span><br><span class="line">3. 登录处理 - HandleLogin, CheckAckInQueue</span><br></pre></td></tr></table></figure>
+<h3 id="轮询">轮询</h3>
+<ul>
+<li>
+<p><code>PollCtl</code></p>
+<ul>
+<li>accept新连接</li>
+<li>遍历新连接池读LoginMsg</li>
+<li>SHM组保活、断连检测</li>
+<li>TCP组断连检测</li>
+</ul>
+</li>
+<li>
+<p><code>PollTcp</code></p>
+<ul>
+<li>work线程调用: 每个worker负责一个grpid，无锁并发</li>
+<li><code>asm volatile</code>: 强制从内存读live_cnt，防止编译器优化到寄存器（因为ctl线程可能改live_cnt）</li>
+<li>遍历活跃连接: 收tcp消息，发心跳</li>
+</ul>
+</li>
+<li>
+<p><code>PollShm</code>: 和PollTcp对称，但从SHM队列收消息（不需要发心跳，SHM无连接概念）</p>
+</li>
+</ul>
+<h3 id="登录处理">登录处理</h3>
+<ul>
+<li><code>HandleLogin</code>
+<ul>
+<li>构造LoginRspMsg（填server_name, status = 2）</li>
+<li>校验client_name非空</li>
+<li>回调OnNewConnection（让业务层鉴权、分配grpid）</li>
+<li>遍历组内连接，找匹配的client_name</li>
+<li>OpenFile（打开ptcp/shm文件）</li>
+<li>server换名检测，GetSeq（读序列号）</li>
+<li>CheckAckInQueue（双向序列号校验）</li>
+<li>发送LoginRsp，conn.Open，swap到live</li>
+</ul>
+</li>
+</ul>
+<h2 id="Examples">Examples</h2>
+<p><code>echo_client.cc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EchoClient成员变量</span><br><span class="line">1. 连接引用 - conn</span><br><span class="line"></span><br><span class="line">2. 统计数据 - msg_sent, start_time, stop_time</span><br><span class="line"></span><br><span class="line">3. 持久化计数 - send_num, recv_num</span><br><span class="line"></span><br><span class="line">4. 配置开关 - slow, do_cpuin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">EchoClient成员函数</span><br><span class="line">1. 生命周期 - Run</span><br><span class="line"></span><br><span class="line">2. 收发 - PollNum, TrySendMsg, handleMsg</span><br><span class="line"></span><br><span class="line">3. CRTP回调（friend TSClient）</span><br><span class="line">   错误 - OnSystemError, OnLoginReject, OnSeqNumberMismatch, OnDisconnected</span><br><span class="line">   消息 - OnServerMsg, OnLoginSuccess</span><br></pre></td></tr></table></figure>
+<p><code>echo_server.cc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">EchoServer成员变量</span><br><span class="line">1. 停止标志 - stopped(static volatile)</span><br><span class="line"></span><br><span class="line">2. 配置开关 - do_cpuin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">EchoServer成员函数</span><br><span class="line">1. 生命周期 - Run, SignalHandler(static)</span><br><span class="line"></span><br><span class="line">2. CRTP回调（friend TSServer）</span><br><span class="line">   错误 - OnSystemError, OnClientFileError, OnSeqNumberMismatch, OnClientDisconnected</span><br><span class="line">   连接 - OnNewConnection, OnClientLogon</span><br><span class="line">   消息 - OnClientMsg</span><br></pre></td></tr></table></figure>
+<h2 id="关键流程">关键流程</h2>
+<ul>
+<li>
+<p>endian.h: 网络字节序转换</p>
+<ul>
+<li>零开销抽象: 模板+编译期常量判断，不产生额外运行时开销</li>
+<li>类型泛化: 适用于任何2/4/8字节整数/浮点类型</li>
+<li>平台无关: 无需条件编译，直接按网络字节序处理</li>
+<li>注意: 自定义struct时，确保字节序转换是正常的，必要场景下需要手动处理</li>
+</ul>
+</li>
+<li>
+<p>mmap.h</p>
+<ul>
+<li>统一的持久化原语: SHM和普通文件共用一套API</li>
+<li>两种持久化语义:
+<ul>
+<li>SHM模式: 内存速度，进程崩能恢复，机器崩不能恢复</li>
+<li>文件模式: 磁盘速度，进程崩能恢复，但没msync的话掉电仍可能丢数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>msg_header.h</p>
+<ul>
+<li>统一分帧: size让接收端能切分连续字节流</li>
+<li>消息分发: msg_type区分控制消息和业务消息</li>
+<li>零开销ACK: ack_seq复用header空间捎带确认</li>
+<li>跨平台: ConvertByteOrder支持异构字节序</li>
+</ul>
+</li>
+<li>
+<p>ptcp_conn.h</p>
+</li>
+<li>
+<p>ptcp_queue.h: PTCPQueue用4个游标(read_idx_/send_idx_/write_idx_/read_seq_num_)把一个mmap持久化数组分成&quot;可回收/已发未ack/已Push未发/空闲&quot;四段，通过piggyback ACK和LoginAck实现应用层可靠投递和崩溃恢复。它是TCP模式的核心数据结构，所有TCP模式的&quot;消息不丢、重连重发、序列号校验&quot;都建立在这套机制上。单线程、无锁、mmap——这三个特性合在一起，就是tcpshm低延迟持久化投递的基石</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://clee01.github.io">Claark Lee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://clee01.github.io/2026/07/23/tcpshm%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/">https://clee01.github.io/2026/07/23/tcpshm%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/16/etcd/" title="etcd"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">etcd</div></div><div class="info-2"><div class="info-item-1">写在前面 WIP Raft协议 多副本复制  主从复制  全同步复制 异步复制 半同步复制   去中心化复制: w/r  共识算法 Raft实现：拆解为三个子问题  Leader选举  Lease   日志复制 安全性  Watch特性  轮询 vs 流式推送 滑动窗口 vs MVCC 可靠的事件推送机制  最新事件推送机制 异常场景重试机制 历史事件推送机制   高效的事件匹配  参考  etcd etcd技术文章  </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Claark Lee</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/clee01"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Hey, this is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%89%8D"><span class="toc-number">1.</span> <span class="toc-text">写在最前</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">全局设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%89%AB%E7%9B%B2"><span class="toc-number">3.</span> <span class="toc-text">文件扫盲</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">3.1.</span> <span class="toc-text">文件生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">3.2.</span> <span class="toc-text">连接生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81"><span class="toc-number">3.3.</span> <span class="toc-text">发送</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6"><span class="toc-number">3.4.</span> <span class="toc-text">接收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E6%8E%A5%E6%94%B6"><span class="toc-number">3.5.</span> <span class="toc-text">底层接收</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">3.6.</span> <span class="toc-text">生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AE%E8%AF%A2"><span class="toc-number">3.7.</span> <span class="toc-text">轮询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%A4%84%E7%90%86"><span class="toc-number">3.8.</span> <span class="toc-text">登录处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-number">4.</span> <span class="toc-text">Examples</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%B5%81%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">关键流程</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/23/tcpshm%E6%BA%90%E7%A0%81%E6%89%AB%E8%AF%BB/" title="tcpshm源码扫读">tcpshm源码扫读</a><time datetime="2026-07-23T08:11:26.000Z" title="Created 2026-07-23 16:11:26">2026-07-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/16/etcd/" title="etcd">etcd</a><time datetime="2025-12-16T10:07:11.000Z" title="Created 2025-12-16 18:07:11">2025-12-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/09/cpp%E5%AE%9E%E7%94%A8%E7%89%B9%E6%80%A7/" title="cpp实用特性">cpp实用特性</a><time datetime="2025-10-09T11:16:38.000Z" title="Created 2025-10-09 19:16:38">2025-10-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/10/09/cpp%E6%80%A7%E8%83%BD%E9%99%B7%E9%98%B1/" title="cpp性能陷阱">cpp性能陷阱</a><time datetime="2025-10-09T05:49:00.000Z" title="Created 2025-10-09 13:49:00">2025-10-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/09/04/cpp/" title="C++ Book Guide and List">C++ Book Guide and List</a><time datetime="2025-09-04T15:26:55.000Z" title="Created 2025-09-04 23:26:55">2025-09-04</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Claark Lee</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
